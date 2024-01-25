@@ -16,8 +16,8 @@ module.exports.seed = async (req, res) => {
 // display all scenes
 module.exports.index = async (req, res) => {
   try {
-    const scene = await Scene.find().sort({ createdAt: 1 });
-    res.status(200).json(scene);
+    const scenes = await Scene.find().sort({ createdAt: 1 });
+    res.status(200).json(scenes);
   } catch (err) {
     console.log(err.message);
     res.status(400).json({ error: err.message });
@@ -26,7 +26,7 @@ module.exports.index = async (req, res) => {
 
 // ===CREATE== [http://localhost:5000/api/scene/] ::  POST available: req.body
 module.exports.create = async (req, res) => {
-  console.log(req.body);
+  // should be in a form and on submit, req.body should be sending just a name.
   try {
     await Scene.create(req.body);
     res.status(200).json(req.body);
