@@ -2,7 +2,7 @@
 
 This is my third project for Per Scholas. This is a re-write of my original Dungeon Master Visualizer (DMV) to make it a full stack application as well as further define the user experience. The main challenge is to combine all knowledge gained in our course to produce a full stack application with user authentication/authorization, database manipulation and RESTful API requests through a React site.
 
-**Deployment**
+###### Deployment
 
 Back end, front end
 
