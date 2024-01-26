@@ -4,7 +4,10 @@ async function authorize(req, res, next) {
   console.log(`Authorizing`);
   try {
     //  1 check if the request has a token (from authorization header)
-    let token = req.header("Authorization");
+    // headers: {
+    //   'Authorization': `Bearer ${user.token}`
+    // }
+    let token = req.headers("Authorization");
     if (!token) {
       // if we return here we never get to user information
       return res.status(400).json({ error: "No token provided" });
