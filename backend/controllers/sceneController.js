@@ -29,6 +29,7 @@ module.exports.create = async (req, res) => {
   // should be in a form and on submit, req.body should be sending just a name.
   try {
     await Scene.create(req.body);
+    console.log('Creating a scene from req.body:', req.body)
     res.status(200).json(req.body);
   } catch (err) {
     console.log(err.message);
@@ -51,7 +52,6 @@ module.exports.delete = async (req, res) => {
 // ===UPDATE=== [http://localhost:5000/api/scene/:id] :: PUT available: req.params.id, req.body
 module.exports.update = async (req, res) => {
   try {
-    console.log("PUT  /api/scene/:id");
     console.log("you are changing: ", req.params.id);
     console.log("with this body: ", req.body);
     await Scene.findByIdAndUpdate(req.params.id, req.body);
