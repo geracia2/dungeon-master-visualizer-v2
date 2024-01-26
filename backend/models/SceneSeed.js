@@ -14,6 +14,6 @@ const sceneSeed = {
     },
   ],
 
-  user_id: { ref: "users", type: mongoose.Types.ObjectId },
+  user_id: "65b3e88c14b43af032b27b67",
 };
 module.exports = sceneSeed;

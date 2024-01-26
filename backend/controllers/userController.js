@@ -1,6 +1,6 @@
-const User = require("../models/User");
+const User = require("../models/userModel");
 
-async function show(req, res) {
+module.exports.show = async (req, res) => {
   console.log("GET /api/users");
   try {
     // show only if we have a token available
@@ -17,6 +17,6 @@ async function show(req, res) {
   }
 }
 
-module.exports = {
-  show,
-};
+// module.exports = {
+//   show,
+// };

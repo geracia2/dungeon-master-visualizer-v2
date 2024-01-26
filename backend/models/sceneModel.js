@@ -21,7 +21,7 @@ const sceneSchema = new Schema(
     ],
 
     // look in 'users' collection, target the mongodb special id object
-    user_id: { ref: "users", type: mongoose.Types.ObjectId },
+    user_id: { type: mongoose.Types.ObjectId, ref: "users",  },
     // send user_id in param on the create route for user
   },
   { timestamps: true }

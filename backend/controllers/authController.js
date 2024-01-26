@@ -50,7 +50,7 @@ module.exports.register = async (req, res) => {
 
     const token = generateToken(newUser);
 
-    console.log(token);
+    console.log('jwt token:', token);
     res.status(200).json({ token });
   } catch (err) {
     console.log(err.message);
@@ -69,7 +69,9 @@ module.exports.login = async (req, res) => {
     // 2 check if PW provided by user matches DB
     // compare(password typed in, database password) this will return a boolean value
     const validPass = await bcrypt.compare(
+      // entered password
       req.body.password,
+      // encrypted password
       foundUser.password
     );
     if (!validPass) {
@@ -78,12 +80,13 @@ module.exports.login = async (req, res) => {
 
     // 3 if pw matches, generate token and return to user
     const token = generateToken(foundUser);
+    console.log('Login successful, token:', token)
     res.status(200).json({ token });
   } catch (err) {
     console.log(err.message);
     res.status(400).json({ error: err.message });
   }
-  F;
+
 }
 // after this we hit middleware authMiddleware
 // module.exports = {
