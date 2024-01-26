@@ -35,7 +35,7 @@ app.use('/auth', authRoutes)
 app.use('/api/users', authorize, userRoutes)
 
 // RESTful Routes
-app.use('/api/scene',authorize, sceneRoutes)
+app.use('/api/scene', sceneRoutes)
 
 // Listen to the given port
 app.listen(PORT, () => {
