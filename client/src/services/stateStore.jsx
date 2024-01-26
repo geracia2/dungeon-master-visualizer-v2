@@ -1,12 +1,28 @@
-import {create} from 'zustand';
+import { create } from 'zustand';
 
+// when we use set, its like saying:
+// incrementReducer: () => setState((currentState) => ({ specifiedState:is currentState.specified +1}))
 const store = (set) => ({
-    // count: 0, // state
-    // increment: () => set((state) => ({ count: state.count + 1 })), //reducers
-    // decrement: () => set((state) => ({ count: state.count - 1 })),
-    // deleteTask: (title) => ({
-    //     task: store.tasks.filter((task) => task.title !== title)
-    // })
+    tracks: [{ name: null, id: null, waveform: null, preview: null }], // state
+    model: {
+        name: null,
+        uid: null,
+    },
+    addTrack: ({ name, id, waveform, preview }) =>
+        set((store) => ({ tracks: [...store.tracks, { name, id, waveform, preview }] })),
+    deleteTrack: ({ name, id, waveform, preview }) =>
+        set((store) => ({
+            tracks: store.tracks.filter((track) => track.id !== id)
+        }),
 });
 
 export const useStateStore = create(store)
+
+/*
+
+// usage
+import { useStore } from 'zustand';
+// function App(){
+const state = useStore((store) => store.namedState) // grabs the entire state
+
+*/
