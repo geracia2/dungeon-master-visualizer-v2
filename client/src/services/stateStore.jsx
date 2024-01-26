@@ -3,11 +3,19 @@ import { create } from 'zustand';
 // when we use set, its like saying:
 // incrementReducer: () => setState((currentState) => ({ specifiedState:is currentState.specified +1}))
 const store = (set) => ({
-    tracks: [{ name: null, id: null, waveform: null, preview: null }], // state
+    // state
+    // scene is needed
+    tracks: [{
+        name: null,
+        id: null,
+        waveform: null,
+        preview: null
+    }],
     model: {
         name: null,
         uid: null,
     },
+    // reducers 
     addTrack: ({ name, id, waveform, preview }) =>
         set((store) => ({ tracks: [...store.tracks, { name, id, waveform, preview }] })),
     deleteTrack: ({ name, id, waveform, preview }) =>
