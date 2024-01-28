@@ -4,7 +4,9 @@ const jwt = require("jsonwebtoken");
 
 function generateToken(user) {
   const payload = { id: user._id, username: user.username };
-  const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 300 });
+  const token = jwt.sign(payload, process.env.JWT_SECRET, 
+    // { expiresIn: 300 }
+    );
   return token;
 }
 

@@ -1,12 +1,31 @@
 const Scene = require("../models/sceneModel");
-const User = require('../models/userModel')
+const User = require("../models/userModel");
 const SceneSeed = require("../models/sceneSeed");
 
 // ==SEED== [http://localhost:5000/api/scene/:userId/seed] :: GET available: req.params.userId
 module.exports.seed = async (req, res) => {
   try {
-    await Scene.deleteMany({});
-    res.status(200).json({ message: "all scenes deleted!" });
+    const query = { user_id: req.params.userId };
+    await Scene.deleteMany(query);
+    await User.findByIdAndUpdate(req.params.userId, {
+      $set: {
+        scenes: []
+      },
+    });
+    // create a scene and insert it in user
+    for (const seed of SceneSeed) {
+      // add user
+      seed.user_id = req.params.userId;
+      // create a scene for each seed
+      const scene = await Scene.create(seed);
+      // console.log("Creating a scene from req.body", seed);
+      const foundUser = await User.findByIdAndUpdate(req.params.userId, {
+        $push: {
+          scenes: scene._id,
+        },
+      });
+    }
+    res.status(200).json({ message: "seeding user" });
   } catch (err) {
     console.log(err.message);
     res.status(400).json({ error: err.message });
@@ -16,8 +35,10 @@ module.exports.seed = async (req, res) => {
 // ==INDEX/ShowAll== [http://localhost:5000/api/scene/:userId] :: GET available: use Model.findById(), req.params.userId
 module.exports.index = async (req, res) => {
   try {
-    const scenes = await Scene.findById(req.params.userId).populate("comments").sort({ createdAt: 1 });
-    res.status(200).json(scenes);
+    const user = await User.findById(req.params.userId)
+      .populate("scenes")
+      .sort({ createdAt: 1 });
+    res.status(200).json(user.scenes);
   } catch (err) {
     console.log(err.message);
     res.status(400).json({ error: err.message });
@@ -26,10 +47,22 @@ module.exports.index = async (req, res) => {
 
 // ===CREATE== [http://localhost:5000/api/scene/:userId] ::  POST available: req.params.userId, req.body
 module.exports.create = async (req, res) => {
-  // should be in a form and on submit, req.body should be sending just a name.
   try {
-    await Scene.create(req.body);
-    console.log('Creating a scene from req.body:', req.body)
+    const body = req.body;
+    body.user_id = req.params.userId;
+
+    // create a scene independent of a User.
+    const scene = await Scene.create(body);
+    console.log("Creating a scene from req.body", req.body);
+    // then find User...
+    await User.findByIdAndUpdate(req.params.userId, {
+      // ... push the new scene's document's ID ...
+      $push: {
+        // ... into the scenes array
+        // schema is looking for scenes: [ type: mongoose.Types.ObjectId ]
+        scenes: scene._id,
+      },
+    });
     res.status(200).json(req.body);
   } catch (err) {
     console.log(err.message);
@@ -40,8 +73,17 @@ module.exports.create = async (req, res) => {
 // ===DELETE== [http://localhost:5000/api/scene/:userId/:sceneId] :: DELETE available: req.params.userId|sceneId
 module.exports.delete = async (req, res) => {
   try {
-    const scene = await Scene.findByIdAndDelete(req.params.id);
-    console.log(`Deleting :`, scene);
+    // directly delete the scene from DB
+    const scene = await Scene.findByIdAndDelete(req.params.sceneId);
+    console.log(`Deleting`, scene);
+    // delete from user scenes array
+    await User.findByIdAndUpdate(req.params.userId, {
+      // pull (remove) the ref Id from scene
+      $pull: {
+        // ... from the scene array
+        scenes: req.params.sceneId,
+      },
+    });
     res.status(200).send("delete was successful");
   } catch (err) {
     console.log(err.message);
@@ -52,9 +94,11 @@ module.exports.delete = async (req, res) => {
 // ===UPDATE=== [http://localhost:5000/api/scene/:userId/:sceneId] :: PUT available: req.params.userId|sceneId, req.body
 module.exports.update = async (req, res) => {
   try {
-    console.log("you are changing: ", req.params.id);
-    console.log("with this body: ", req.body);
-    await Scene.findByIdAndUpdate(req.params.id, req.body);
+    // update a comment by updating an item in the comments property in post
+
+    console.log("Edit", req.params.sceneId);
+    console.log("with this body", req.body);
+    await Scene.findByIdAndUpdate(req.params.sceneId, req.body);
     // noting sent back? send something or it will hang
     res.status(200).send("update was successful");
     // redirect on client side
@@ -68,8 +112,8 @@ module.exports.update = async (req, res) => {
 // open scene, populate with ref. content
 module.exports.show = async (req, res) => {
   try {
-    const scene = await Scene.findById(req.params.id);
-    console.log(scene);
+    const scene = await Scene.findById(req.params.sceneId);
+    console.log("Show scene", scene);
     res.status(200).json(scene);
   } catch (err) {
     console.log(err.message);

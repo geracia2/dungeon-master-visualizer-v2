@@ -17,7 +17,7 @@ const User = mongoose.model("users", userSchema);
 
 module.exports = User;
 
-
+/*
 // example of a user
 User = {
   _id: { "$oid": "65b587aa62c9cf40a30ceda7" },
@@ -25,6 +25,9 @@ User = {
   password: "pass123",
   email: "bob@gmail.com",
   scenes: [
+    // uses this:
+    { type: mongoose.Types.ObjectId, ref: "scenes" },
+    // looks like this:
     {
       "$oid": "65a986ba6505401d3bfac954"
     }
@@ -53,4 +56,5 @@ User = {
     },
   ],
 };
+*/
 

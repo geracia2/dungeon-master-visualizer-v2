@@ -13,6 +13,7 @@ module.exports.show = async (req, res) => {
       username: foundUser.username,
       email: foundUser.email,
       id: foundUser._id,
+      scenes: foundUser.scenes
     });
   } catch (err) {
     console.log(err.message);
