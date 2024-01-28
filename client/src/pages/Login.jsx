@@ -11,7 +11,7 @@ let emptyForm = {
 function Login() {
   const navigate = useNavigate();
   const loading = useStateStore((store) => store.loading)
-  const setUser = useStateStore(store => store.setUser)
+  const setUser = useStateStore((store) => store.setUser)
 
   let [form, setForm] = useState(emptyForm);
 
@@ -21,10 +21,11 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // detailed explanation is in register as they share a similar process
     try {
       const response = await axios.post("http://localhost:5000/auth/login", form);
       const token = response.data.token;
-      console.log(token);
+      console.log('token', token);
       if (!token) {
         setForm(emptyForm);
         return;
@@ -33,11 +34,10 @@ function Login() {
       const userResponse = await axios.get("http://localhost:5000/api/users", {
         headers: { Authorization: token },
       });
-      console.log(userResponse.data)
+      console.log('user response',userResponse.data)
       setUser(userResponse.data);
       navigate("/models");
     } catch (err) {
-
       console.log(err);
       alert(err.response.data.error);
     }

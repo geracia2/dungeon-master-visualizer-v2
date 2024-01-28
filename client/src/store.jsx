@@ -3,9 +3,9 @@ import { devtools } from "zustand/middleware";
 // when we use set, its like saying:
 // incrementReducer: () => setState((currentState) => ({ specifiedState:is currentState.specified +1}) replaceAll or update true/false, 'title')
 export const useStateStore = create(devtools((set) => ({
-    user: null,
+    user: {},
     scenes: [],
-    loading: false,
+    loading: true,
     newUser: {
         new: true,
         model: false,
@@ -13,14 +13,13 @@ export const useStateStore = create(devtools((set) => ({
     },
     // reducers
     setUser: (response) => {
-        console.log('setting');
+        console.log('set user', response);
         set({ user: response }, false, "setUser")
     },
-    // clearUser: () => {
-    //     console.log('clearing');
-    //     set({ user: {} }, false, "clearUser");
-    //     set({loading: true})
-    // },
+    setLoading: (bool) => {
+        console.log('setting loading', bool);
+        set({ loading: bool })
+    }
 
 
 })));

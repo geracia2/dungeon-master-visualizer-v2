@@ -1,7 +1,8 @@
 import axios from "axios";
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { useStateStore } from "../store";
 
 let emptyForm = {
   username: "",
@@ -9,8 +10,9 @@ let emptyForm = {
   email: "",
 };
 
-function Register({ setUser }) {
+function Register() {
   const navigate = useNavigate();
+  let setUser = useStateStore((store) => store.setUser)
 
   let [form, setForm] = useState(emptyForm);
 
@@ -48,7 +50,10 @@ function Register({ setUser }) {
       console.log('Getting user info in response');
       setUser(userResponse.data);
       console.log("Setting user");
+      // seed user with new scene and status of first experience
+      
       navigate("/models");
+
     } catch (err) {
       console.log(err.response.data.error);
       alert(err.response.data.error);

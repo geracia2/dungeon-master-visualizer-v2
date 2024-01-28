@@ -8,61 +8,44 @@ import Models from './pages/Models';
 import Sounds from './pages/Sounds';
 import Scene from './pages/Scene';
 
-import { Routes, Route } from "react-router-dom";
-import  {useStateStore}  from './store';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import loadLocalUser from './services/loadLocalUser';
+
+import { Navigate, Route, Routes } from "react-router-dom";
+import { useStateStore } from './store';
 
 function App() {
-  let user = useStateStore(state => state.user)
-  let setUser = useStateStore(store => store.setUser)
-  let clearUser = useStateStore(store => store.clearUser)
-  // const [user, setUser] = useState({});
-  // we need time to check if token is loaded in to state, not just localStorage
-  const [loading, setLoading] = useState(true);
+  // use the user name as a check for active login
+  let loggedIn = useStateStore((store) => store.user.username)
 
-  // grab user from database with token as ID
-  async function getUser(token) {
-    try {
-      console.log('starting to get user')
-      const response = await axios.get("http://localhost:5000/api/users", {
-        headers: {
-          Authorization: token,
-        },
-      });
-      setUser(response.data);
-      console.log('token and DB user match', response.data)
-    } catch (err) {
-      console.log(err);
-      localStorage.removeItem("token");
-    }
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    // look for token in localstorage if we are logged in.
-    console.log('looking into localStorage')
-    const token = localStorage.getItem("token");
-    if (token) {
-      // get user info, which is just token : asdfasdf right now in localstorage
-      console.log('got token')
-      getUser(token);
-    } else {
-      console.log('No token')
-      setLoading(false);
-    }
-  }, []);
+  // load our localStorage token and check if it's valid
+  let loading = loadLocalUser();
+  console.log('loading', loading)
 
   return (
     <>
       <TopAppBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/register" element={<Register setUser={setUser} />} />
-        <Route path="/login" element={<Login setUser={setUser} />} />
-        <Route path="/models" element={<Models />} />
-        <Route path="/sounds" element={<Sounds />} />
-        <Route path="/scene" element={<Scene />} /> 
+        {loggedIn ? (
+          <>
+            {/* if logged in */}
+            <Route path="/models" element={<Models />} />
+            <Route path="/sounds" element={<Sounds />} />
+            <Route path="/scene" element={<Scene />} />
+            {/* re-route if user tries to access login/register url while not logged out */}
+            {!loading && <Route path="/login" element={<Navigate to="/scene" />} />}
+            {!loading && <Route path="/register" element={<Navigate to="/scene" />} />}
+          </>
+        ) : (
+          <>
+            {/* if not logged in */}
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            {!loading && (<Route path="/models" element={<Navigate to="/login" />} />)}
+            {!loading && (<Route path="/sounds" element={<Navigate to="/login" />} />)}
+            {!loading && (<Route path="/scene" element={<Navigate to="/login" />} />)}
+          </>
+        )}
       </Routes>
     </>
   )

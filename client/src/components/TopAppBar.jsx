@@ -11,7 +11,7 @@ export default function TopAppBar() {
 
   function logout() {
     // remove token from local storage and state
-    setUser(null);
+    setUser({});
     localStorage.removeItem('token')
     navigate('/login')
   };
@@ -19,13 +19,17 @@ export default function TopAppBar() {
   return (
     <div>TopAppBar
       <br />
-      {user &&
+      {user.username ? (
         <>
-          user: {user.username}
+          Welcome {user.username}
           <br />
           <button type="button" onClick={logout}>logout</button>
         </>
-      }
+      ) : (
+        <>
+          no one is logged in
+        </>
+      )}
     </div>
   )
 }
