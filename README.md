@@ -8,7 +8,7 @@ Back end, front end
 
 ###### The Problem
 
-I was not happy with the user flow of my first DMV app and a re-write of the experience, implementing a backend, seemed like a reasonable challenge.
+I was not happy with the user flow of my first DMV app and a re-write of the experience, implementing a backend with users, seemed like a reasonable challenge (understatement).
 
 ###### Planning
 
@@ -18,5 +18,7 @@ I was not happy with the user flow of my first DMV app and a re-write of the exp
 * I also needed to quickly establish an [Entity Relationship Diagram](https://github.com/geracia2/geracia2/blob/main/images/Screenshot%202024-01-26%20110434.png?raw=true "screenshot of ERD in figma") to best plan out Schema relationships especially when working with users in a reference relationship to scenes.
 
 ###### What I learned
+
+Laying out all the data and their relationships is quite important and I learned my initial assumptions of the ERD was wrong, thus my REST routes were wrong. I tackled the REST routs first without having a solid understanding of how to populate scenes with a reference relationship to users. This resulted in re-writing the scne routes but doing so gave me more experience with mapping ERD. It was also quite helpful to produce an example user object
 
 ###### Technologies used
