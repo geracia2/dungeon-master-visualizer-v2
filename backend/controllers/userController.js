@@ -7,11 +7,12 @@ module.exports.show = async (req, res) => {
     // it is req.id findByID from middleware payload transforming payload.id to req.id
     const foundUser = await User.findById(req.id);
 
-    console.log('Sending username and email in json')
+    console.log('Found User', foundUser)
 
     res.status(200).json({
       username: foundUser.username,
       email: foundUser.email,
+      id: foundUser._id,
     });
   } catch (err) {
     console.log(err.message);

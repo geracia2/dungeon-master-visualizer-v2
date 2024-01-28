@@ -7,8 +7,8 @@ const sceneSchema = new Schema(
     title: { type: String, required: true, default: "New Scene" },
 
     model: {
-      name: { type: String, required: true },
-      uid: { type: String, required: true },
+      name: { type: String  },
+      uid: { type: String  },
     },
 
     tracks: [
@@ -20,9 +20,9 @@ const sceneSchema = new Schema(
       },
     ],
 
-    // look in 'users' collection, target the mongodb special id object
-    user_id: { type: mongoose.Types.ObjectId, ref: "users",  },
-    // send user_id in param on the create route for user
+    // // look in 'users' collection, target the mongodb special id object
+    // user_id: { type: mongoose.Types.ObjectId, ref: "users",  },
+    // // send user_id in param on the create route for user
   },
   { timestamps: true }
 );

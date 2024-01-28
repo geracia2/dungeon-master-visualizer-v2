@@ -1,7 +1,8 @@
 const Scene = require("../models/sceneModel");
+const User = require('../models/userModel')
 const SceneSeed = require("../models/sceneSeed");
 
-// ==SEED==
+// ==SEED== [http://localhost:5000/api/scene/:userId/seed] :: GET available: req.params.userId
 module.exports.seed = async (req, res) => {
   try {
     await Scene.deleteMany({});
@@ -12,11 +13,10 @@ module.exports.seed = async (req, res) => {
   }
 };
 
-// ==INDEX== [http://localhost:5000/api/scene/] :: GET available: use model
-// display all scenes
+// ==INDEX/ShowAll== [http://localhost:5000/api/scene/:userId] :: GET available: use Model.findById(), req.params.userId
 module.exports.index = async (req, res) => {
   try {
-    const scenes = await Scene.find().sort({ createdAt: 1 });
+    const scenes = await Scene.findById(req.params.userId).populate("comments").sort({ createdAt: 1 });
     res.status(200).json(scenes);
   } catch (err) {
     console.log(err.message);
@@ -24,7 +24,7 @@ module.exports.index = async (req, res) => {
   }
 };
 
-// ===CREATE== [http://localhost:5000/api/scene/] ::  POST available: req.body
+// ===CREATE== [http://localhost:5000/api/scene/:userId] ::  POST available: req.params.userId, req.body
 module.exports.create = async (req, res) => {
   // should be in a form and on submit, req.body should be sending just a name.
   try {
@@ -37,7 +37,7 @@ module.exports.create = async (req, res) => {
   }
 };
 
-// ===DELETE== [http://localhost:5000/api/scene/:id] :: DELETE available: req.params.id
+// ===DELETE== [http://localhost:5000/api/scene/:userId/:sceneId] :: DELETE available: req.params.userId|sceneId
 module.exports.delete = async (req, res) => {
   try {
     const scene = await Scene.findByIdAndDelete(req.params.id);
@@ -49,7 +49,7 @@ module.exports.delete = async (req, res) => {
   }
 };
 
-// ===UPDATE=== [http://localhost:5000/api/scene/:id] :: PUT available: req.params.id, req.body
+// ===UPDATE=== [http://localhost:5000/api/scene/:userId/:sceneId] :: PUT available: req.params.userId|sceneId, req.body
 module.exports.update = async (req, res) => {
   try {
     console.log("you are changing: ", req.params.id);
@@ -64,7 +64,7 @@ module.exports.update = async (req, res) => {
   }
 };
 
-// ===SHOW=== [http://localhost:5000/api/scene/:id] :: GET available: req.params.id
+// ===SHOW=== [http://localhost:5000/api/scene/:userId/:sceneId] :: GET available: req.params.userId|sceneId
 // open scene, populate with ref. content
 module.exports.show = async (req, res) => {
   try {
