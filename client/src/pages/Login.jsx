@@ -10,10 +10,17 @@ let emptyForm = {
 
 function Login() {
   const navigate = useNavigate();
-  const loading = useStateStore((store) => store.loading)
-  const setUser = useStateStore((store) => store.setUser)
-  const setScene = useStateStore((store) => store.setScene)
-  const addTitle = useStateStore((store) => store.setScene)
+  const {
+    setUser,
+    setScene,
+    addTitle,
+    loading,
+  } = useStateStore((store) => ({
+    setUser: store.setUser,
+    setScene: store.setScene,
+    addTitle: store.addTitle,
+    loading: store.loading
+  }))
 
   let [form, setForm] = useState(emptyForm);
 

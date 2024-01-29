@@ -3,8 +3,14 @@ import { useState } from 'react';
 import { useStateStore } from "../store";
 
 export default function Models() {
-  const setModel = useStateStore((store) => store.setModel)
-  const removeModel = useStateStore((store) => store.removeModel)
+  const {
+    setModel,
+    removeModel,
+  } = useStateStore((store) => ({
+    setModel: store.setModel,
+    removeModel: store.removeModel,
+  }))
+  
   // token for SketchFab, but may not need it
   const sfKey = import.meta.env.VITE_KEY_SF;
 
@@ -63,8 +69,8 @@ export default function Models() {
   return (
     <div>
       Models
-      <button onClick={()=>setModel({testing: "value", id: 333})}>set model</button>
-        <button onClick={removeModel}>remove model</button>
+      <button onClick={() => setModel({ testing: "value", id: 333 })}>set model</button>
+      <button onClick={removeModel}>remove model</button>
     </div>
   )
 }

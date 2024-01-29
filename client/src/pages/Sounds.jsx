@@ -3,9 +3,14 @@ import { useState } from 'react';
 import { useStateStore } from "../store";
 
 export default function Sounds() {
-  const addTrack = useStateStore((store) => store.addTrack)
-  const deleteTrack = useStateStore((store) => store.deleteTrack)
-
+  const {
+    addTrack,
+    deleteTrack,
+  } = useStateStore((store) => ({
+    addTrack: store.addTrack,
+    deleteTrack: store.deleteTrack,
+  }))
+ 
   // token for FreeSound
   const fsKey = import.meta.env.VITE_KEY_FS;
 

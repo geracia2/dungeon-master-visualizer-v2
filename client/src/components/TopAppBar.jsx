@@ -4,16 +4,21 @@ import { useStateStore } from './../store';
 
 export default function TopAppBar() {
   const navigate = useNavigate();
-  const user = useStateStore((store) => store.user)
-  const setUser = useStateStore((store) => store.setUser)
-  const clearTitles = useStateStore((store) => store.clearTitles)
-  const clearScene = useStateStore((store) => store.clearScene)
-
-
+  const {
+    user, 
+    clearUser,
+    clearTitles,
+    clearScene
+  } = useStateStore((store) => ({
+    user: store.user,
+    setUser: store.clearUser,
+    loading: store.clearTitles,
+    setLoading: store.clearScene
+  }))
 
   function logout() {
     // remove token from local storage and state
-    setUser({});
+    clearUser();
     clearTitles()
     clearScene()
     localStorage.removeItem('token')

@@ -12,10 +12,17 @@ let emptyForm = {
 
 function Register() {
   const navigate = useNavigate();
-  let setUser = useStateStore((store) => store.setUser)
-  let setLoading = useStateStore((store) => store.setLoading)
-  let setScene = useStateStore((store) => store.setScene)
-  let addTitle = useStateStore((store) => store.addTitle)
+  const {
+    setUser,
+    setLoading,
+    setScene,
+    addTitle,
+  } = useStateStore((store) => ({
+    setUser: store.setUser,
+    setLoading: store.setLoading,
+    setScene: store.setScene,
+    addTitle: store.addTitle
+  }))
 
   let [form, setForm] = useState(emptyForm);
 

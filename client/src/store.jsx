@@ -1,47 +1,31 @@
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
-// when we use set, its like saying:
-// incrementReducer: () => setState((currentState) => ({ specifiedState:is currentState.specified +1}) replaceAll or update true/false, 'title')
+
 export const useStateStore = create(persist(devtools((set) => ({
     // STATE ▼
     user: {},
-    scene: {
-        // title: "test Scne",
-        // user_id: "test",
-        // model: {
-        //     name: "test",
-        //     uid: "test",
-        //     thumbnail: "test"
-        // },
-        // _id: "test",
-        // tracks: [
-        //     {
-        //         name: "test",
-        //         id: 349179,
-        //         waveform: "test",
-        //         preview: "test",
-        //         _id: "test"
-        //     },
-        // ],
-        // createdAt: "2024-01-28T21:16:37.731Z",
-        // updatedAt: "2024-01-28T21:16:37.731Z",
-        // __v: 0,
-    },
+    scene: {},
     sceneTitles: [],
     loading: true,
-    // newUser: {
-    //     new: true,
-    //     model: false,
-    //     sound: false
-    // },
+    newUser: {
+        new: true,
+        model: false,
+        sound: false
+    },
 
     // REDUCERS ▼
+    // when we use set, its like saying:
+    // incrementReducer: () => setState((currentState) => ({ specifiedState:is currentState.specified +1}) replaceAll or update true/false, 'title')
 
     // method: (inject)
     setUser: (userResponse) => {
         console.log('set user', userResponse);
         // change({your.State: with.Injection})
         set({ user: userResponse }, false, "setUser")
+    },
+    clearUser: () => {
+        console.log('Clear user', userResponse);
+        set({ user: {} }, false, "clearUser")
     },
 
     setLoading: (bool) => {
@@ -50,6 +34,7 @@ export const useStateStore = create(persist(devtools((set) => ({
     },
 
     addTitle: (title) => {
+        // change((access.All.Store.States))
         set((state) => {
             state.sceneTitles.push(title)
         }, false, "addTitle")
@@ -58,7 +43,7 @@ export const useStateStore = create(persist(devtools((set) => ({
     clearTitles: () => {
         set({ sceneTitles: [] }, false, "clearTitles")
     },
-    
+
     setScene: (sceneResponse) => {
         console.log('set scene', sceneResponse);
         set({ scene: sceneResponse }, false, "setScene")
@@ -92,7 +77,6 @@ export const useStateStore = create(persist(devtools((set) => ({
 
     addTrack: (newTrack) => {
         console.log('Adding track', newTrack)
-        // change((access.All.Store.States))
         set((state) => {
             state.scene.tracks.push(newTrack)
         }, false, "addTrack")
@@ -110,9 +94,9 @@ export const useStateStore = create(persist(devtools((set) => ({
     },
 
 
-})), 
-// persistent storage name
-{ name: 'dmv' }));
+})),
+    // persistent storage name
+    { name: 'dmv' }));
 
 
 

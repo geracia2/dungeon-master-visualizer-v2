@@ -12,8 +12,7 @@ export default function loadLocalUser() {
         setUser: store.setUser,
         loading: store.loading, 
         setLoading: store.setLoading 
-    }),
-    )
+    }))
 
     useEffect(() => {
         // look for token in localstorage if we are logged in.
