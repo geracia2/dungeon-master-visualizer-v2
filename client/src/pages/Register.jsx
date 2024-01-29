@@ -13,6 +13,9 @@ let emptyForm = {
 function Register() {
   const navigate = useNavigate();
   let setUser = useStateStore((store) => store.setUser)
+  let setLoading = useStateStore((store) => store.setLoading)
+  let setScene = useStateStore((store) => store.setScene)
+  let addTitle = useStateStore((store) => store.addTitle)
 
   let [form, setForm] = useState(emptyForm);
 
@@ -24,34 +27,56 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // fetch a post request(path, data)
-      console.log('Form', form); // {username: 'Bob', password: 'pas123', email: 'bob@gmail.com'}
+      console.log('Creating user from form', form); // {username: 'Bob', password: 'pas123', email: 'bob@gmail.com'}
       const response = await axios.post("http://localhost:5000/auth/register", form);
       // axios formats the response to json already for us
       // data.token should give us the token string, encrypted
       const token = response.data.token;
-      console.log('Token', token);
+      const id = response.data.id;
+      console.log('Token created', token);
       // if we don't have any tokens, reset the form
       if (!token) {
         setForm(emptyForm);
         return;
       }
-
       // if we do get a token, we want to store it to persist user authorization
       // localStorage set (key, value(make sure its a string))
       localStorage.setItem("token", token);
 
+      console.log('Seeding scene')
+      const seedScene = await axios.get(`http://localhost:5000/api/scene/${id}/seed`, {
+        headers: { Authorization: token },
+      });
+      console.log('seeding successful')
+      // // get scenes
+      // seedScene.data.scene.map((scene)=>{
+      //   addTitle(scene.title);
+      // })
+      // setScene(seedScene.data.scene[0])
+
       // our user/:id is going to be replaced with the header: authorization token
       // the routes authorization middleware is waiting for a header: token
-      console.log('Sending token to match DB')
+      console.log('Requesting user information')
       const userResponse = await axios.get("http://localhost:5000/api/users", {
         headers: { Authorization: token },
       });
-      console.log('Getting user info in response');
+      console.log('Got user info in response');
       setUser(userResponse.data);
-      console.log("Setting user");
-      // seed user with new scene and status of first experience
-      
+      console.log("User set");
+
+      console.log("Getting scenes");
+      const sceneResponse = await axios.get(`http://localhost:5000/api/scene/${id}`, {
+        headers: { Authorization: token },
+      });
+      console.log("Adding titles");
+      sceneResponse.data.map((scene) => {
+        addTitle(scene.title);
+      })
+      console.log("Setting Scene");
+      setScene(sceneResponse.data[0])
+
+      console.log("end of register");
+      setLoading(false);
       navigate("/models");
 
     } catch (err) {

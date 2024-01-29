@@ -12,6 +12,7 @@ function generateToken(user) {
 
 module.exports.register = async (req, res) => {
   try {
+    console.log('++++ new user ++++')
     // 1 check if user exists
     // Model.findOne({key: 'value/response from form'})
     const foundUser = await User.findOne({ username: req.body.username });
@@ -37,7 +38,7 @@ module.exports.register = async (req, res) => {
     });
 
     console.log('newUser sent:', newUser);
-
+    const id = newUser._id
     // 4 give key to access (authorization), generate JWT token and return to user
     // npm i jsonwebtoken
     // our sent payload is {id: id from mongodb, username: from the newUser}
@@ -52,8 +53,8 @@ module.exports.register = async (req, res) => {
 
     const token = generateToken(newUser);
 
-    console.log('jwt token:', token);
-    res.status(200).json({ token });
+    console.log('++++ new user created ++++');
+    res.status(200).json({ token, id });
   } catch (err) {
     console.log(err.message);
     res.status(400).json({ error: err.message });

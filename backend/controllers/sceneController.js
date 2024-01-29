@@ -1,33 +1,48 @@
 const Scene = require("../models/sceneModel");
 const User = require("../models/userModel");
-const SceneSeed = require("../models/sceneSeed");
+const sceneSeed = require("../models/sceneSeed");
 
 // ==SEED== [http://localhost:5000/api/scene/:userId/seed] :: GET available: req.params.userId
 module.exports.seed = async (req, res) => {
   try {
+    console.log('++++ Seeding a user ++++')
+    // delete matching scenes for user
     const query = { user_id: req.params.userId };
     await Scene.deleteMany(query);
-    await User.findByIdAndUpdate(req.params.userId, {
+    // delete scene reference array
+    const foundUser = await User.findByIdAndUpdate(req.params.userId, {
       $set: {
-        scenes: []
+        scenes: [],
       },
     });
-    // create a scene and insert it in user
-    for (const seed of SceneSeed) {
-      // add user
-      seed.user_id = req.params.userId;
-      // create a scene for each seed
-      const scene = await Scene.create(seed);
-      // console.log("Creating a scene from req.body", seed);
-      const foundUser = await User.findByIdAndUpdate(req.params.userId, {
-        $push: {
-          scenes: scene._id,
-        },
-      });
-    }
-    res.status(200).json({ message: "seeding user" });
+    console.log('clearing all scenes from user')
+
+    let updateBody = sceneSeed
+    updateBody.user_id = req.params.userId;
+    const scene = await Scene.create(updateBody);
+    const newUser = await User.findByIdAndUpdate(req.params.userId, {
+      $push: {
+        scenes: scene._id,
+      },
+    });
+    console.log('seeding new first scene')
+
+    // for multiple documents to be inserted:
+    // create a scene and insert it in a user
+    // for (const seed of sceneSeed) {
+    //   // add user
+    //   seed.user_id = req.params.userId;
+    //   // create a scene for each seed
+    //   const scene = await Scene.create(seed);
+    //   const foundUser = await User.findByIdAndUpdate(req.params.userId, {
+    //     $push: {
+    //       scenes: scene._id,
+    //     },
+    //   });
+    // }
+    res.status(200).json({newUser, scene});
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
     res.status(400).json({ error: err.message });
   }
 };
@@ -48,14 +63,15 @@ module.exports.index = async (req, res) => {
 // ===CREATE== [http://localhost:5000/api/scene/:userId] ::  POST available: req.params.userId, req.body
 module.exports.create = async (req, res) => {
   try {
+
     const body = req.body;
     body.user_id = req.params.userId;
-
+    console.log(body)
     // create a scene independent of a User.
     const scene = await Scene.create(body);
     console.log("Creating a scene from req.body", req.body);
     // then find User...
-    await User.findByIdAndUpdate(req.params.userId, {
+    const updateUser = await User.findByIdAndUpdate(req.params.userId, {
       // ... push the new scene's document's ID ...
       $push: {
         // ... into the scenes array
@@ -63,7 +79,7 @@ module.exports.create = async (req, res) => {
         scenes: scene._id,
       },
     });
-    res.status(200).json(req.body);
+    res.status(200).json(updateUser);
   } catch (err) {
     console.log(err.message);
     res.status(400).json({ error: err.message });

@@ -12,6 +12,8 @@ function Login() {
   const navigate = useNavigate();
   const loading = useStateStore((store) => store.loading)
   const setUser = useStateStore((store) => store.setUser)
+  const setScene = useStateStore((store) => store.setScene)
+  const addTitle = useStateStore((store) => store.setScene)
 
   let [form, setForm] = useState(emptyForm);
 
@@ -23,6 +25,7 @@ function Login() {
     e.preventDefault();
     // detailed explanation is in register as they share a similar process
     try {
+
       const response = await axios.post("http://localhost:5000/auth/login", form);
       const token = response.data.token;
       console.log('token', token);
@@ -34,9 +37,21 @@ function Login() {
       const userResponse = await axios.get("http://localhost:5000/api/users", {
         headers: { Authorization: token },
       });
-      console.log('user response',userResponse.data)
+      console.log('user response', userResponse.data)
       setUser(userResponse.data);
-      navigate("/models");
+      // get scenes
+      const sceneResponse = await axios.get(`http://localhost:5000/api/scene/${userResponse.data.id}`, {
+        headers: { Authorization: token },
+      });
+      console.log('setting scene with response data', userResponse.data.id)
+      sceneResponse.data.map((scene)=>{
+        addTitle(scene.title);
+      })
+      
+      setScene(sceneResponse.data[0])
+
+      console.log('navigating to scene')
+      navigate("/scene");
     } catch (err) {
       console.log(err);
       alert(err.response.data.error);

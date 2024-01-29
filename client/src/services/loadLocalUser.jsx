@@ -4,9 +4,15 @@ import { useShallow } from 'zustand/react/shallow'
 import axios from 'axios';
 
 export default function loadLocalUser() {
-    let setUser = useStateStore((store) => store.setUser)
-    const { loading, setLoading } = useStateStore(
-        useShallow((store) => ({ loading: store.loading, setLoading: store.setLoading })),
+    const { 
+        setUser,
+        loading, 
+        setLoading 
+    } = useStateStore((store) => ({ 
+        setUser: store.setUser,
+        loading: store.loading, 
+        setLoading: store.setLoading 
+    }),
     )
 
     useEffect(() => {
@@ -34,6 +40,7 @@ export default function loadLocalUser() {
             });
             setUser(response.data);
             console.log('token and DB user match', response.data)
+
         } catch (err) {
             console.log(err);
             localStorage.removeItem("token");

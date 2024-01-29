@@ -6,13 +6,18 @@ export default function TopAppBar() {
   const navigate = useNavigate();
   const user = useStateStore((store) => store.user)
   const setUser = useStateStore((store) => store.setUser)
+  const clearTitles = useStateStore((store) => store.clearTitles)
+  const clearScene = useStateStore((store) => store.clearScene)
 
 
 
   function logout() {
     // remove token from local storage and state
     setUser({});
+    clearTitles()
+    clearScene()
     localStorage.removeItem('token')
+    localStorage.removeItem('dmv')
     navigate('/login')
   };
 
