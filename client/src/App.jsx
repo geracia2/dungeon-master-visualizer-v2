@@ -13,6 +13,7 @@ import loadLocalUser from './services/loadLocalUser';
 import { Navigate, Route, Routes } from "react-router-dom";
 import { useStateStore } from './store';
 
+import { Box } from '@mui/material';
 function App() {
   // use the user name as a check for active login
   let loggedIn = useStateStore((store) => store.user.username)
@@ -22,32 +23,41 @@ function App() {
   console.log('loading', loading)
 
   return (
-    <>
-      <TopAppBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        {/* {loggedIn ? ( */}
+    <div className='App'>
+      <Box sx={{
+        backgroundImage: "url(/art/backgroundPaper.jpg)",
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        height: "100vh",
+      }}
+      >
+        <TopAppBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {/* {loggedIn ? ( */}
           {/* <> */}
-            {/* if logged in */}
-            <Route path="/models" element={<Models />} />
-            <Route path="/sounds" element={<Sounds />} />
-            <Route path="/scene" element={<Scene />} />
-            {/* re-route if user tries to access login/register url while not logged out */}
-            {/* {!loading && <Route path="/login" element={<Navigate to="/scene" />} />} */}
-            {/* {!loading && <Route path="/register" element={<Navigate to="/scene" />} />} */}
+          {/* if logged in */}
+          <Route path="/models" element={<Models />} />
+          <Route path="/sounds" element={<Sounds />} />
+          <Route path="/scene" element={<Scene />} />
+          {/* re-route if user tries to access login/register url while not logged out */}
+          {/* {!loading && <Route path="/login" element={<Navigate to="/scene" />} />} */}
+          {/* {!loading && <Route path="/register" element={<Navigate to="/scene" />} />} */}
           {/* </> */}
-        {/* ) : ( */}
+          {/* ) : ( */}
           {/* <> */}
-            {/* if not logged in */}
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            {/* {!loading && (<Route path="/models" element={<Navigate to="/login" />} />)} */}
-            {/* {!loading && (<Route path="/sounds" element={<Navigate to="/login" />} />)} */}
-            {/* {!loading && (<Route path="/scene" element={<Navigate to="/login" />} />)} */}
+          {/* if not logged in */}
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          {/* {!loading && (<Route path="/models" element={<Navigate to="/login" />} />)} */}
+          {/* {!loading && (<Route path="/sounds" element={<Navigate to="/login" />} />)} */}
+          {/* {!loading && (<Route path="/scene" element={<Navigate to="/login" />} />)} */}
           {/* </> */}
-        {/* )} */}
-      </Routes>
-    </>
+          {/* )} */}
+        </Routes>
+      </Box>
+    </div>
   )
 }
 
