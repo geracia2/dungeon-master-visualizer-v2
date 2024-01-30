@@ -24,7 +24,7 @@ export const useStateStore = create(persist(devtools((set) => ({
         set({ user: userResponse }, false, "setUser")
     },
     clearUser: () => {
-        console.log('Clear user', userResponse);
+        console.log('Clear user');
         set({ user: {} }, false, "clearUser")
     },
 

@@ -4,6 +4,7 @@ import { useStateStore } from './../store';
 
 export default function TopAppBar() {
   const navigate = useNavigate();
+  // const clearUser = useStateStore((store)=> {clearUser: store.clearUser})
   const {
     user, 
     clearUser,
@@ -11,16 +12,16 @@ export default function TopAppBar() {
     clearScene
   } = useStateStore((store) => ({
     user: store.user,
-    setUser: store.clearUser,
-    loading: store.clearTitles,
-    setLoading: store.clearScene
+    clearUser: store.clearUser,
+    clearTitles: store.clearTitles,
+    clearScene: store.clearScene
   }))
 
   function logout() {
     // remove token from local storage and state
     clearUser();
-    clearTitles()
-    clearScene()
+    clearTitles();
+    clearScene();
     localStorage.removeItem('token')
     localStorage.removeItem('dmv')
     navigate('/login')
