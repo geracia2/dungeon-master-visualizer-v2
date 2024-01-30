@@ -1,12 +1,14 @@
+import axios from "axios";
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 
-export const useStateStore = create(persist(devtools((set) => ({
+export const useStateStore = create(persist(devtools((set, get) => ({
     // STATE ▼
     user: {},
     scene: {},
     sceneTitles: [],
     loading: true,
+    token: '',
     newUser: {
         new: true,
         model: false,
@@ -27,43 +29,43 @@ export const useStateStore = create(persist(devtools((set) => ({
         console.log('Clear user');
         set({ user: {} }, false, "clearUser")
     },
-
     setLoading: (bool) => {
         console.log('setting loading', bool);
         set({ loading: bool }, false, "setLoading")
     },
-
+    setToken: (tokenResponse) => {
+        console.log('setToken', tokenResponse);
+        set({ token: tokenResponse }, false, "setToken")
+    },
     addTitle: (title) => {
         // change((access.All.Store.States))
         set((state) => {
             state.sceneTitles.push(title)
         }, false, "addTitle")
     },
-
     clearTitles: () => {
         set({ sceneTitles: [] }, false, "clearTitles")
     },
-
     setScene: (sceneResponse) => {
         console.log('set scene', sceneResponse);
         set({ scene: sceneResponse }, false, "setScene")
     },
-
     clearScene: () => {
         set({ scene: {} }, false, "clearScene")
     },
-
-    setModel: (modelResponse) => {
+    setModelToState: async (modelResponse) => {
         console.log('set model', modelResponse);
-        set({
+        set((state) => ({
             scene: {
-                model: { modelResponse },
+                model: modelResponse,
                 title: state.scene.title,
                 tracks: state.scene.tracks,
             }
-        }, false, "setModel")
-    },
+        }), false, "setModelToState");
+        const scene = get().scene;
+        console.log(scene)
 
+    },
     removeModel: () => {
         console.log('remove model');
         set((state) => ({
@@ -74,14 +76,12 @@ export const useStateStore = create(persist(devtools((set) => ({
             }
         }), false, "removeModel")
     },
-
     addTrack: (newTrack) => {
         console.log('Adding track', newTrack)
         set((state) => {
             state.scene.tracks.push(newTrack)
         }, false, "addTrack")
     },
-
     deleteTrack: (deleteId) => {
         console.log('Deleting track', deleteId)
         set((state) => ({
@@ -92,7 +92,6 @@ export const useStateStore = create(persist(devtools((set) => ({
             }
         }), false, "deleteTrack")
     },
-
 
 })),
     // persistent storage name

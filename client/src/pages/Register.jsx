@@ -14,11 +14,13 @@ function Register() {
   const navigate = useNavigate();
   const {
     setUser,
+    setToken,
     setLoading,
     setScene,
     addTitle,
   } = useStateStore((store) => ({
     setUser: store.setUser,
+    setToken: store.setToken,
     setLoading: store.setLoading,
     setScene: store.setScene,
     addTitle: store.addTitle
@@ -41,8 +43,10 @@ function Register() {
       const token = response.data.token;
       const id = response.data.id;
       console.log('Token created', token);
+      setToken(token)
       // if we don't have any tokens, reset the form
       if (!token) {
+        setToken(null)
         setForm(emptyForm);
         return;
       }

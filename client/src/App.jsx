@@ -25,7 +25,7 @@ function App() {
   return (
     <div className='App'>
       <Box sx={{
-        backgroundImage: "url(/art/backgroundPaper.jpg)",
+        backgroundImage: "url(/art/backgroundPaperGradient.jpg)",
         backgroundPosition: "center",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
@@ -35,6 +35,7 @@ function App() {
         <TopAppBar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           {/* {loggedIn ? ( */}
           {/* <> */}
           {/* if logged in */}

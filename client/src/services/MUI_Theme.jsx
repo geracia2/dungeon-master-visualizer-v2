@@ -1,20 +1,32 @@
 import { createTheme } from "@mui/material/styles";
-import darkScrollbar from "@mui/material/darkScrollbar";
+import darkScrollbar from '@mui/material/darkScrollbar';
 export const ThemeOptions = createTheme({
   palette: {
     mode: 'dark',
     primary: {
       main: '#cb653d',
+      light: '#d48363',
+      dark: '#92472a',
+      contrastText: '#fdfdfd',
     },
     secondary: {
-      main: '#b84ec9',
+      main: '#c541da',
+      light: '#5f4aea',
+      dark: '#793285',
+      contrastText: '#ffffff',
     },
     background: {
-      default: '#160f0f',
+      default: '#282c34',
       paper: '#2f2424',
     },
+    text: {
+      secondary: 'rgba(255, 255, 255, 0.7)',
+      disabled: 'rgba(255, 255, 255, 0.5)',
+      hint: '#201848',
+      primary: '#f1eeee',
+    },
   },
-  spacing: 8,
+  spacing: 5,
   shape: {
     borderRadius: 12,
   },
@@ -74,6 +86,11 @@ export const ThemeOptions = createTheme({
     },
   },
   components: {
+    // MuiCssBaseline: {
+    //   styleOverrides: (themeParam) => ({
+    //     body: themeParam.palette.mode === "dark" ? darkScrollbar() : null,
+    //   }),
+    // },
     MuiSwitch: {
       styleOverrides: {
         root: {

@@ -4,10 +4,11 @@ import { useShallow } from "zustand/react/shallow";
 import axios from "axios";
 
 export default function loadLocalUser() {
-    const { setUser, loading, setLoading } = useStateStore((store) => ({
+    const { setUser, loading, setLoading, setToken } = useStateStore((store) => ({
         setUser: store.setUser,
         loading: store.loading,
         setLoading: store.setLoading,
+        setToken: store.setToken,
     }));
 
     useEffect(() => {
@@ -17,9 +18,11 @@ export default function loadLocalUser() {
         if (token) {
             // get user info, which is just token : asdfasdf right now in localstorage
             console.log("got token");
+            setToken(token)
             getUser(token);
         } else {
             console.log("No token");
+            setToken(null)
             setLoading(false);
         }
     }, []);

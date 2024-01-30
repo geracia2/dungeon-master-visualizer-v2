@@ -18,30 +18,34 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 const drawerWidth = 240;
-const loggedItems = ['home', 'models', 'sounds', 'scene', 'logout'];
+const loggedItems = ['home', 'models', 'sounds', 'scene',];
 const unloggedItems = ['home', 'login', 'register'];
 // ========= MUI stuff ▲
 
 export default function TopAppBar(props) {
+  const navigate = useNavigate()
   const {
     user,
+    setToken,
     clearUser,
     clearTitles,
     clearScene
   } = useStateStore((store) => ({
     user: store.user,
+    setToken: store.setToken,
     clearUser: store.clearUser,
     clearTitles: store.clearTitles,
     clearScene: store.clearScene
   }))
 
   function logout() {
+    setToken(null);
     clearUser();
     clearTitles();
     clearScene();
     localStorage.removeItem('token')
     localStorage.removeItem('dmv')
-    useNavigate('/login')
+    navigate('/login')
   };
   // ========= MUI stuff ▼
   const { window } = props;
@@ -72,6 +76,13 @@ export default function TopAppBar(props) {
                 </ListItemButton>
               </ListItem>
             ))}
+            <ListItem disablePadding>
+              <ListItemButton sx={{ textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
+                <Button sx={{ color: '#fff' }} onClick={logout}>
+                  logout
+                </Button>
+              </ListItemButton>
+            </ListItem>
           </>
         ) : (
           <>
@@ -125,6 +136,9 @@ export default function TopAppBar(props) {
                       </Button>
                     </Link>
                   ))}
+                  <Button sx={{ color: '#fff' }} onClick={logout}>
+                    logout
+                  </Button>
                 </>
               ) : (
                 <>

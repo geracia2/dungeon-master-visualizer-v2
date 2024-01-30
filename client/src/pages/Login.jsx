@@ -12,11 +12,13 @@ function Login() {
   const navigate = useNavigate();
   const {
     setUser,
+    setToken,
     setScene,
     addTitle,
     loading,
   } = useStateStore((store) => ({
     setUser: store.setUser,
+    setToken: store.setToken,
     setScene: store.setScene,
     addTitle: store.addTitle,
     loading: store.loading
@@ -36,7 +38,9 @@ function Login() {
       const response = await axios.post("http://localhost:5000/auth/login", form);
       const token = response.data.token;
       console.log('token', token);
+      setToken(token)
       if (!token) {
+        setToken(null)
         setForm(emptyForm);
         return;
       }
