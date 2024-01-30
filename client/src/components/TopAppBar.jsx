@@ -2,10 +2,9 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { useStateStore } from './../store';
 // ========= MUI stuff ▼
-import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
@@ -19,7 +18,8 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 const drawerWidth = 240;
-const navItems = ['Home', 'Models', 'Sounds', 'Scene', 'Login', 'Register'];
+const loggedItems = ['home', 'models', 'sounds', 'scene', 'logout'];
+const unloggedItems = ['home', 'login', 'register'];
 // ========= MUI stuff ▲
 
 export default function TopAppBar(props) {
@@ -53,18 +53,45 @@ export default function TopAppBar(props) {
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-      logo
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Avatar alt="DMV logo" src="/art/DMVlogSm.svg" sx={{ m: 2, display: 'flex', alignSelf: "center" }} />
+      </Box>
       <Divider />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {user.username ? (
+          <>
+            {/* if there is a user */}
+            {loggedItems.map((item) => (
+              <ListItem key={item} disablePadding>
+                <ListItemButton sx={{ textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
+                  <Link to={`/${item}`}>
+                    <Button key={item} sx={{ color: '#fff' }}>
+                      {item}
+                    </Button>
+                  </Link>
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </>
+        ) : (
+          <>
+            {/* no user */}
+            {unloggedItems.map((item) => (
+              <ListItem key={item} disablePadding>
+                <ListItemButton sx={{ textAlign: 'center', display: 'flex', justifyContent: 'center' }}>
+                  <Link to={`/${item}`}>
+                    <Button key={item} sx={{ color: '#fff' }}>
+                      {item}
+                    </Button>
+                  </Link>
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </>
+        )}
+
       </List>
-    </Box>
+    </Box >
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
@@ -72,9 +99,8 @@ export default function TopAppBar(props) {
   // MUI stuff ▲
   return (
     <>
-      <Box sx={{ display: 'flex' }}>
-        <CssBaseline />
-        <AppBar component="nav">
+      <Box sx={{ display: 'flex', marginBottom: '4.5rem', }}>
+        <AppBar component="nav" enableColorOnDark >
           <Toolbar>
             <IconButton
               color="inherit"
@@ -85,19 +111,33 @@ export default function TopAppBar(props) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-            >
-              MUI
-            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }} >
+              <Avatar alt="DMV logo" src="/art/DMVlogSm.svg" />
+            </Box>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              {navItems.map((item) => (
-                <Button key={item} sx={{ color: '#fff' }}>
-                  {item}
-                </Button>
-              ))}
+              {user.username ? (
+                <>
+                  {/* if there is a user */}
+                  {loggedItems.map((item) => (
+                    <Link to={`/${item}`} key={item}>
+                      <Button sx={{ color: '#fff' }}>
+                        {item}
+                      </Button>
+                    </Link>
+                  ))}
+                </>
+              ) : (
+                <>
+                  {/* no user */}
+                  {unloggedItems.map((item) => (
+                    <Link to={`/${item}`} key={item}>
+                      <Button key={item} sx={{ color: '#fff' }}>
+                        {item}
+                      </Button>
+                    </Link>
+                  ))}
+                </>
+              )}
             </Box>
           </Toolbar>
         </AppBar>
@@ -118,17 +158,9 @@ export default function TopAppBar(props) {
             {drawer}
           </Drawer>
         </nav>
+
+        {/* {props.children} */}
       </Box>
-      <>
-        {user.username ? (
-          <>
-          </>
-        ) : (
-          <>
-            no one is logged in
-          </>
-        )}
-      </>
     </>
   )
 }
