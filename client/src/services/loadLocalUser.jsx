@@ -1,29 +1,25 @@
-import React, { useEffect } from 'react'
-import { useStateStore } from '../store';
-import { useShallow } from 'zustand/react/shallow'
-import axios from 'axios';
+import React, { useEffect } from "react";
+import { useStateStore } from "../store";
+import { useShallow } from "zustand/react/shallow";
+import axios from "axios";
 
 export default function loadLocalUser() {
-    const { 
-        setUser,
-        loading, 
-        setLoading 
-    } = useStateStore((store) => ({ 
+    const { setUser, loading, setLoading } = useStateStore((store) => ({
         setUser: store.setUser,
-        loading: store.loading, 
-        setLoading: store.setLoading 
-    }))
+        loading: store.loading,
+        setLoading: store.setLoading,
+    }));
 
     useEffect(() => {
         // look for token in localstorage if we are logged in.
-        console.log('looking into localStorage')
+        console.log("looking into localStorage");
         const token = localStorage.getItem("token");
         if (token) {
             // get user info, which is just token : asdfasdf right now in localstorage
-            console.log('got token')
+            console.log("got token");
             getUser(token);
         } else {
-            console.log('No token')
+            console.log("No token");
             setLoading(false);
         }
     }, []);
@@ -31,15 +27,12 @@ export default function loadLocalUser() {
     // grab user from database with token as ID
     async function getUser(token) {
         try {
-            console.log('starting to get user')
+            console.log("starting to get user");
             const response = await axios.get("http://localhost:5000/api/users", {
-                headers: {
-                    Authorization: token,
-                },
+                headers: { Authorization: token, },
             });
             setUser(response.data);
-            console.log('token and DB user match', response.data)
-
+            console.log("token and DB user match", response.data);
         } catch (err) {
             console.log(err);
             localStorage.removeItem("token");
@@ -49,5 +42,3 @@ export default function loadLocalUser() {
     }
     return loading;
 }
-
-
