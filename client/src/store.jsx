@@ -69,15 +69,6 @@ export const useStateStore = create(persist(devtools((set, get) => ({
     },
     removeModel: async () => {
         console.log('remove model');
-        // set((state) => ({
-        //     scene: {
-        //         model: {},
-        //         title: state.scene.title,
-        //         tracks: state.scene.tracks,
-        //         user_id: state.scene.user_id,
-        //         _id: state.scene._id,
-        //     }
-        // }), false, "removeModel")
         set((state) => { state.scene.model = {} }, false, "removeModel")
 
         const scene = {};
