@@ -14,12 +14,13 @@ function Register() {
   const baseURL = import.meta.env.VITE_BASE_URL
   const navigate = useNavigate();
   const {
-    setUser,
+    setLoggedIn,
     setToken,
     setLoading,
     setScene,
     addTitle,
   } = useStateStore((store) => ({
+    setLoggedIn: store.setLoggedIn,
     setUser: store.setUser,
     setToken: store.setToken,
     setLoading: store.setLoading,
@@ -47,6 +48,7 @@ function Register() {
       setToken(token)
       // if we don't have any tokens, reset the form
       if (!token) {
+        setLoggedIn(false)
         setToken(null)
         setForm(emptyForm);
         return;
@@ -89,6 +91,7 @@ function Register() {
 
       console.log("end of register");
       setLoading(false);
+      setLoggedIn(true);
       navigate("/models");
 
     } catch (err) {

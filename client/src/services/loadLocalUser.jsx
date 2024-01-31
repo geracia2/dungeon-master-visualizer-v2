@@ -4,8 +4,9 @@ import { useShallow } from "zustand/react/shallow";
 import axios from "axios";
 
 export default function loadLocalUser() {
-    const baseURL= import.meta.env.VITE_BASE_URL
-    const { setUser, loading, setLoading, setToken } = useStateStore((store) => ({
+    const baseURL = import.meta.env.VITE_BASE_URL
+    const { setLoggedIn, setUser, loading, setLoading, setToken } = useStateStore((store) => ({
+        setLoggedIn: store.setLoggedIn,
         setUser: store.setUser,
         loading: store.loading,
         setLoading: store.setLoading,
@@ -20,9 +21,11 @@ export default function loadLocalUser() {
             // get user info, which is just token : asdfasdf right now in localstorage
             console.log("got token");
             setToken(token)
+            setLoggedIn(true)
             getUser(token);
         } else {
             console.log("No token");
+            setLoggedIn(false)
             setToken(null)
             setLoading(false);
         }

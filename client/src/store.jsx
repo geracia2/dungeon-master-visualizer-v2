@@ -5,10 +5,11 @@ const baseURL = import.meta.env.VITE_BASE_URL
 
 export const useStateStore = create(persist(devtools((set, get) => ({
     // STATE ▼
-    user: {},
+    user: {username: null},
     scene: {},
     sceneTitles: [],
     loading: true,
+    loggedIn: false,
     token: '',
     newUser: {
         new: true,
@@ -25,6 +26,10 @@ export const useStateStore = create(persist(devtools((set, get) => ({
         console.log('set user', userResponse);
         // change({your.State: with.Injection})
         set({ user: userResponse }, false, "setUser")
+    },
+    setLoggedIn: (bool) => {
+        console.log('setting presence', bool);
+        set({ loggedIn: bool }, false, "setLoggedIn")
     },
     clearUser: () => {
         console.log('Clear user');

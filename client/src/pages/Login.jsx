@@ -13,12 +13,14 @@ function Login() {
   const baseURL = import.meta.env.VITE_BASE_URL
   const navigate = useNavigate();
   const {
+    setLoggedIn,
     setUser,
     setToken,
     setScene,
     addTitle,
     loading,
   } = useStateStore((store) => ({
+    setLoggedIn: store.setLoggedIn,
     setUser: store.setUser,
     setToken: store.setToken,
     setScene: store.setScene,
@@ -42,6 +44,7 @@ function Login() {
       console.log('token', token);
       setToken(token)
       if (!token) {
+        setLoggedIn(false)
         setToken(null)
         setForm(emptyForm);
         return;
@@ -62,7 +65,7 @@ function Login() {
       })
 
       setScene(sceneResponse.data[0])
-
+      setLoggedIn(true)
       console.log('navigating to scene')
       navigate("/scene");
     } catch (err) {
