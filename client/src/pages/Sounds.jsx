@@ -30,7 +30,7 @@ export default function Sounds() {
 
 
   // Search bar API request -> List
-  async function handleSubmit(e) {
+  async function handleSearch(e) {
     e.preventDefault(); // don't refresh the page with a form submission
     let count = 10;
     let cursor = 'null';
@@ -60,7 +60,7 @@ export default function Sounds() {
     //   console.log('Soloed Track', results);
     //   setFSTrack(results);
     // } catch (error) {
-    //   console.warn(error);
+    //   console.warn(error);1
     // }
     const url = `https://freesound.org/apiv2/sounds/${param}/`;
     const options = {
@@ -91,7 +91,7 @@ export default function Sounds() {
       </Typography>
       <SearchBar
         section={section}
-        handleSubmit={handleSubmit}
+        handleSearch={handleSearch}
         input={input}
         handleChange={handleChange}
       />
