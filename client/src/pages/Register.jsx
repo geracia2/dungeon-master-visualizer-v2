@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useStateStore } from "../store";
+import { Box, TextField, Typography, Button } from '@mui/material/'
 
 let emptyForm = {
   username: "",
@@ -10,7 +11,7 @@ let emptyForm = {
 };
 
 function Register() {
-  const baseURL= import.meta.env.VITE_BASE_URL
+  const baseURL = import.meta.env.VITE_BASE_URL
   const navigate = useNavigate();
   const {
     setUser,
@@ -98,26 +99,52 @@ function Register() {
 
   return (
     <>
-      <h1>Register</h1>
-      <form
-        onSubmit={handleSubmit}
-      // what this is creating from input's names:
-      // {username: 'asd', password: 'pas123', email: 'bob@gmail.com'}
-      >
-        <label htmlFor="username">Username:</label>
-        <br />
-        <input type="text" id="username" name="username" onChange={handleChange} value={form.username} />
-        <br />
-        {/* <label htmlFor="email">Email:</label> */}
-        {/* <br /> */}
-        {/* <input type="email" id="email" name="email"onChange={handleChange} value={form.email} /> */}
-        <br />
-        <label htmlFor="password">Password:</label>
-        <br />
-        <input type="password" id="password" name="password" onChange={handleChange} value={form.password} />
-        <br />
-        <button>Submit</button>
-      </form>
+      <Box sx={{
+        display: 'flex',
+        flexFlow: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+        <Typography variant="h3" color="textPrimary">Register</Typography>
+        <form onSubmit={handleSubmit} >
+          <Box
+            sx={{
+              '& .MuiTextField-root': { m: 1, width: '25ch' },
+              display: 'flex',
+              flexFlow: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            autoComplete="on"
+          >
+            <TextField
+              label="User Name"
+              id="username"
+              name="username"
+              type="text"
+              onChange={handleChange}
+              value={form.username}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              label="Password"
+              type="password"
+              id="password"
+              name="password"
+              onChange={handleChange}
+              value={form.password}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <Button type='submit' variant="contained" color="primary">
+              Submit
+            </Button>
+          </Box>
+        </form>
+      </Box>
     </>
   );
 }

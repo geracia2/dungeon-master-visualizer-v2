@@ -7,7 +7,7 @@ import Home from './pages/Home';
 import Models from './pages/Models';
 import Sounds from './pages/Sounds';
 import Scene from './pages/Scene';
-
+import Test from './pages/Test'
 import loadLocalUser from './services/loadLocalUser';
 
 import { Navigate, Route, Routes } from "react-router-dom";
@@ -50,7 +50,7 @@ function App() {
           {/* <> */}
           {/* if not logged in */}
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login  />} />
           {/* {!loading && (<Route path="/models" element={<Navigate to="/login" />} />)} */}
           {/* {!loading && (<Route path="/sounds" element={<Navigate to="/login" />} />)} */}
           {/* {!loading && (<Route path="/scene" element={<Navigate to="/login" />} />)} */}
