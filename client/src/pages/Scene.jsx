@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 
 export default function Scene() {
-  const Tracks = useStateStore((store) => store.scene?.tracks);
+  const tracks = useStateStore((store) => store.scene?.tracks);
   const model = useStateStore((store) => store.scene?.model)
   const removeModel = useStateStore((store)=> store.removeModel)
 
@@ -35,8 +35,8 @@ export default function Scene() {
         }}
       >
 
-        {Tracks.length ? (<>
-          {console.log("your tracks", Tracks)
+        {tracks ? (<>
+          {console.log("your tracks", tracks)
           }
           <Box
             sx={{
@@ -49,7 +49,7 @@ export default function Scene() {
               gap: "10px",
             }}
           >
-            {Tracks.map((track) => (
+            {tracks.map((track) => (
               <SoundMuiCard track={track} key={track.id} />
             ))}
           </Box>
@@ -59,7 +59,7 @@ export default function Scene() {
           </Alert>
         </>)}
 
-        {model?.uid ? (<>
+        {model ? (<>
           {console.log("your model", model)}
           <Box sx={{
             px: 2,
