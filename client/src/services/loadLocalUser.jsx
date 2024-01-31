@@ -31,7 +31,7 @@ export default function loadLocalUser() {
     async function getUser(token) {
         try {
             console.log("starting to get user");
-            const response = await axios.get("http://localhost:5000/api/users", {
+            const response = await axios.get(`${process.env.BASE_URL}/api/users`, {
                 headers: { Authorization: token, },
             });
             setUser(response.data);

@@ -70,12 +70,12 @@ export const useStateStore = create(persist(devtools((set, get) => ({
         console.log('sending to DB', scene);
         console.log('sceneId', sceneId);
         const response = await axios.put(
-            `http://localhost:5000/api/scene/${sceneId}/model`,
+            `${process.env.BASE_URL}/api/scene/${sceneId}/model`,
             scene,
-            {headers: { Authorization: token }}
+            { headers: { Authorization: token } }
         );
     },
-    removeModel: () => {
+    removeModel: async () => {
         console.log('remove model');
         set((state) => ({
             scene: {
@@ -84,6 +84,16 @@ export const useStateStore = create(persist(devtools((set, get) => ({
                 tracks: state.scene.tracks,
             }
         }), false, "removeModel")
+        const scene = {};
+        const sceneId = get().scene._id;
+        const token = get().token
+        console.log('deleting model from DB');
+        console.log('sceneId', sceneId);
+        const response = await axios.put(
+            `${process.env.BASE_URL}/api/scene/${sceneId}/model`,
+            scene,
+            { headers: { Authorization: token } }
+        );
     },
     addTrack: (newTrack) => {
         console.log('Adding track', newTrack)
