@@ -60,11 +60,20 @@ export const useStateStore = create(persist(devtools((set, get) => ({
                 model: modelResponse,
                 title: state.scene.title,
                 tracks: state.scene.tracks,
+                user_id: state.scene.user_id,
+                _id: state.scene._id,
             }
         }), false, "setModelToState");
-        const scene = get().scene;
-        console.log(scene)
-
+        const scene = get().scene.model;
+        const sceneId = get().scene._id;
+        const token = get().token
+        console.log('sending to DB', scene);
+        console.log('sceneId', sceneId);
+        const response = await axios.put(
+            `http://localhost:5000/api/scene/${sceneId}/model`,
+            scene,
+            {headers: { Authorization: token }}
+        );
     },
     removeModel: () => {
         console.log('remove model');

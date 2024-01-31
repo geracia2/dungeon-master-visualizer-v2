@@ -47,7 +47,7 @@ module.exports.seed = async (req, res) => {
   }
 };
 
-// ==INDEX/ShowAll== [http://localhost:5000/api/scene/:userId] :: GET available: use Model.findById(), req.params.userId
+// ===INDEX/ShowAll== [http://localhost:5000/api/scene/:userId] :: GET available: use Model.findById(), req.params.userId
 module.exports.index = async (req, res) => {
   try {
     const user = await User.findById(req.params.userId)
@@ -86,6 +86,34 @@ module.exports.create = async (req, res) => {
   }
 };
 
+// ===UPDATE=== [http://localhost:5000/api/scene/:sceneId/tracks] :: PUT available: req.params.userId|sceneId, req.body
+module.exports.updateTracks = async (req, res) => {
+  try {
+    console.log("updating just the tracks with", req.body)
+    await Scene.findByIdAndUpdate(req.params.sceneId, {
+      $set: {tracks: req.body}
+    });
+    res.status(200).send("update was successful");
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json({ error: err.message });
+  }
+};
+
+// ===UPDATE=== [http://localhost:5000/api/scene/:sceneId/model] :: PUT available: req.params.userId|sceneId, req.body
+module.exports.updateModel = async (req, res) => {
+  try {
+    console.log("updating just the model with", req.body)
+    await Scene.findByIdAndUpdate(req.params.sceneId, {
+      $set: {model: req.body}
+    });
+    res.status(200).send("update was successful");
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json({ error: err.message });
+  }
+};
+
 // ===DELETE== [http://localhost:5000/api/scene/:userId/:sceneId] :: DELETE available: req.params.userId|sceneId
 module.exports.delete = async (req, res) => {
   try {
@@ -108,12 +136,11 @@ module.exports.delete = async (req, res) => {
 };
 
 // ===UPDATE=== [http://localhost:5000/api/scene/:userId/:sceneId] :: PUT available: req.params.userId|sceneId, req.body
-module.exports.update = async (req, res) => {
+module.exports.updateScene = async (req, res) => {
   try {
     // update a comment by updating an item in the comments property in post
 
-    console.log("Edit", req.params.sceneId);
-    console.log("with this body", req.body);
+    console.log("Edit whole scene with", req.body); 
     await Scene.findByIdAndUpdate(req.params.sceneId, req.body);
     // noting sent back? send something or it will hang
     res.status(200).send("update was successful");

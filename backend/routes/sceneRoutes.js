@@ -11,11 +11,17 @@ router.get("/:userId", sceneControl.index);
 // ===CREATE== [http://localhost:5000/api/scene/:userId] ::  POST available: req.params.userId, req.body
 router.post("/:userId", sceneControl.create);
 
+// ===UPDATE=== [http://localhost:5000/api/scene/:sceneId/model] :: PUT available: req.params.userId|sceneId, req.body
+router.put("/:sceneId/model", sceneControl.updateModel);
+
+// ===UPDATE=== [http://localhost:5000/api/scene/:sceneId/tracks] :: PUT available: req.params.userId|sceneId, req.body
+router.put("/:sceneId/tracks", sceneControl.updateTracks);
+
 // ===DELETE== [http://localhost:5000/api/scene/:userId/:sceneId] :: DELETE available: req.params.userId|sceneId
 router.delete("/:userId/:sceneId", sceneControl.delete);
 
 // ===UPDATE=== [http://localhost:5000/api/scene/:userId/:sceneId] :: PUT available: req.params.userId|sceneId, req.body
-router.put("/:userId/:sceneId", sceneControl.update);
+router.put("/:sceneId", sceneControl.updateScene);
 
 // ===SHOW=== [http://localhost:5000/api/scene/:userId/:sceneId] :: GET available: req.params.userId|sceneId
 router.get('/:userId/:sceneId', sceneControl.show)
