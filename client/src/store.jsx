@@ -116,9 +116,8 @@ export const useStateStore = create(persist(devtools((set, get) => ({
         console.log(response.data)
     },
 
-})),
     // persistent storage name
-    { name: 'dmv' }));
+})), { name: 'dmv' }));
 
 
 
