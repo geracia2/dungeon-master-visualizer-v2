@@ -28,6 +28,7 @@ export default function SoundTrack({ fsTrack }) {
           }}
           spacing={4}
         >
+          {console.log(fsTrack)}
           <Typography variant="body1">
             {fsTrack.name}
             <a
@@ -48,7 +49,8 @@ export default function SoundTrack({ fsTrack }) {
               onClick={() => addTrack({
                 name: fsTrack.name,
                 id: fsTrack.id,
-                waveform: fsTrack.images.waveform_bw_l
+                waveform: fsTrack.images.waveform_bw_l,
+                preview: fsTrack.previews["preview-lq-mp3"],
               })}
               icon={<AddIcon />} />
             <Chip

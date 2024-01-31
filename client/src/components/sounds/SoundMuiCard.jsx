@@ -13,13 +13,13 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import StopIcon from "@mui/icons-material/Stop";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useStateStore } from "../../store";
 // reducers
-import { Remove_Track, Add_Track } from "../utility/store/freesSoundSlice";
-import { useDispatch } from 'react-redux';
 
 export default function SoundMuiCard({ track }) {
   const theme = useTheme();
-  const dispatch = useDispatch();
+  const deleteTrack = useStateStore((store) => store.deleteTrack)
+  const removeModel = useStateStore((store) => store.removeModel)
 
   return (
     <>
@@ -54,7 +54,7 @@ export default function SoundMuiCard({ track }) {
           <Typography component="div" variant="caption">
             {track.name}
           </Typography>
-          <IconButton onClick={()=>dispatch(Remove_Track(track.id))}>
+          <IconButton onClick={() => deleteTrack(track.id)}>
             <DeleteIcon />
           </IconButton>
         </Box>
@@ -64,7 +64,7 @@ export default function SoundMuiCard({ track }) {
             controls
             loop
             style={{ height: "30px" }}
-            src={track["previews"]["preview-hq-mp3"]}
+            src={track.preview}
           />
         </Box>
       </Box>
