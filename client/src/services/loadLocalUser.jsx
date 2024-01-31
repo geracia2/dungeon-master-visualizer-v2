@@ -4,6 +4,7 @@ import { useShallow } from "zustand/react/shallow";
 import axios from "axios";
 
 export default function loadLocalUser() {
+    const baseURL= import.meta.env.VITE_BASE_URL
     const { setUser, loading, setLoading, setToken } = useStateStore((store) => ({
         setUser: store.setUser,
         loading: store.loading,
@@ -31,7 +32,7 @@ export default function loadLocalUser() {
     async function getUser(token) {
         try {
             console.log("starting to get user");
-            const response = await axios.get(`${process.env.BASE_URL}/api/users`, {
+            const response = await axios.get(`${baseURL}/api/users`, {
                 headers: { Authorization: token, },
             });
             setUser(response.data);

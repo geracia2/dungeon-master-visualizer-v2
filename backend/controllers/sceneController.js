@@ -86,12 +86,26 @@ module.exports.create = async (req, res) => {
   }
 };
 
-// ===UPDATE=== [http://localhost:5000/api/scene/:sceneId/tracks] :: PUT available: req.params.userId|sceneId, req.body
-module.exports.updateTracks = async (req, res) => {
+// ===CREATE=== [http://localhost:5000/api/scene/:sceneId/tracks] :: PUT available: req.params.userId|sceneId, req.body
+module.exports.addTracks = async (req, res) => {
+  try {
+    console.log("Adding track with", req.body)
+    await Scene.findByIdAndUpdate(req.params.sceneId, {
+      $push: {tracks: req.body}
+    });
+    res.status(200).send("update was successful");
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json({ error: err.message });
+  }
+};
+
+// ===DELETE=== [http://localhost:5000/api/scene/:sceneId/tracks/:trackid] :: PUT available: req.params.userId|sceneId, req.body
+module.exports.deleteTracks = async (req, res) => {
   try {
     console.log("updating just the tracks with", req.body)
     await Scene.findByIdAndUpdate(req.params.sceneId, {
-      $set: {tracks: req.body}
+      $pull: {tracks: req.params.trackId}
     });
     res.status(200).send("update was successful");
   } catch (err) {

@@ -5,10 +5,10 @@ import { useStateStore } from "../store";
 let emptyForm = {
   username: "",
   password: "",
-  email: "",
 };
 
 function Login() {
+  const baseURL= import.meta.env.VITE_BASE_URL
   const navigate = useNavigate();
   const {
     setUser,
@@ -35,7 +35,7 @@ function Login() {
     // detailed explanation is in register as they share a similar process
     try {
 
-      const response = await axios.post("${process.env.BASE_URL}/auth/login", form);
+      const response = await axios.post(`${baseURL}/auth/login`, form);
       const token = response.data.token;
       console.log('token', token);
       setToken(token)
@@ -45,13 +45,13 @@ function Login() {
         return;
       }
       localStorage.setItem("token", token);
-      const userResponse = await axios.get(`${process.env.BASE_URL}/api/users`, {
+      const userResponse = await axios.get(`${baseURL}/api/users`, {
         headers: { Authorization: token },
       });
       console.log('user response', userResponse.data)
       setUser(userResponse.data);
       // get scenes
-      const sceneResponse = await axios.get(`${process.env.BASE_URL}/api/scene/${userResponse.data.id}`, {
+      const sceneResponse = await axios.get(`${baseURL}/api/scene/${userResponse.data.id}`, {
         headers: { Authorization: token },
       });
       console.log('setting scene with response data', userResponse.data.id)

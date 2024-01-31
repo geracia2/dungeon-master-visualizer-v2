@@ -1,8 +1,20 @@
 import React from 'react'
 import { useState } from 'react';
 import { useStateStore } from "../store";
+import SearchBar from "../components/searchBar";
+import SoundList from '../components/sounds/SoundList';
+import SoundPresets from '../components/sounds/SoundPresets';
+import SoundTrack from '../components/sounds/SoundTrack';
+import Typography from "@mui/material/Typography";
+import axios from "axios";
+
+import { Box } from "@mui/material";
 
 export default function Sounds() {
+  // token for FreeSound
+  const fsKey = import.meta.env.VITE_KEY_FS;
+  const section = "Music and Sounds";
+
   const {
     addTrack,
     deleteTrack,
@@ -10,48 +22,25 @@ export default function Sounds() {
     addTrack: store.addTrack,
     deleteTrack: store.deleteTrack,
   }))
- 
-  // token for FreeSound
-  const fsKey = import.meta.env.VITE_KEY_FS;
+
 
   const [fsListData, setFSListData] = useState(null);
   const [fsTrack, setFSTrack] = useState(null);
   const [input, setInput] = useState("");
 
-  const section = "Music and Sounds";
-
-  // Preset API requests -> List
-  async function handlePreset(param) {
-    const url = `https://freesound.org/apiv2/search/text/?query=${param}`;
-    const options = {
-      headers: {
-        Authorization: `Token ${fsKey}`,
-      },
-    };
-    try {
-      const response = await fetch(url, options);
-      const data = await response.json();
-      setFSListData(data.results);
-    } catch (error) {
-      console.warn(error);
-    }
-  }
 
   // Search bar API request -> List
   async function handleSubmit(e) {
     e.preventDefault(); // don't refresh the page with a form submission
+    let count = 10;
+    let cursor = 'null';
     const url = `https://freesound.org/apiv2/search/text/?query=${input}`;
-    const options = {
-      headers: {
-        Authorization: `Token ${fsKey}`,
-      },
-    };
+    const options = { headers: { Authorization: `Token ${fsKey}` } }
     try {
-      const response = await fetch(url, options);
-      const data = await response.json();
-      console.log(data);
-      // dispatch here
-      setFSListData(data.results);
+      const response = await axios.get(url, options);
+      const results = response.data.results;
+      console.log('Results from sound search', results);
+      setFSListData(results);
     } catch (error) {
       console.warn(error);
     }
@@ -59,6 +48,20 @@ export default function Sounds() {
 
   // Selected fsTrack API requests -> Solo fsTrack
   async function handleTrack(param) {
+    // FreeSound does not like axios?!? cors issue with the exact same request
+    // let count = 10;
+    // let cursor = 'null';
+    // const url = `https://freesound.org/apiv2/sounds/${param}`;
+    // const options = { headers: { Authorization: `Token ${fsKey}` } }
+    // try {
+    //   const response = await axios.get(url, options);
+    //   console.log(response)
+    //   const results = response.data.results;
+    //   console.log('Soloed Track', results);
+    //   setFSTrack(results);
+    // } catch (error) {
+    //   console.warn(error);
+    // }
     const url = `https://freesound.org/apiv2/sounds/${param}/`;
     const options = {
       headers: {
@@ -67,6 +70,7 @@ export default function Sounds() {
     };
     try {
       const response = await fetch(url, options);
+      console.log(response)
       const data = await response.json();
       // console.log(data);
       setFSTrack(data);
@@ -74,12 +78,36 @@ export default function Sounds() {
       console.warn(error);
     }
   }
+
+  // update the text input
+  function handleChange(e) {
+    setInput(e.target.value);
+  }
+
   return (
-    <div>Sounds
-      <div>
-        <button onClick={()=>addTrack({testing: "value", id: 333})}>add a track</button>
-        <button onClick={()=>deleteTrack(333)}>delete a track</button>
-      </div>
-    </div>
+    <>
+      <Typography align="center" color="text.secondary" sx={{ p: { xs: 1, sm: 3 }, typography: { xs: 'h6', sm: 'h5' } }}>
+        Search for music or sounds and add them to your scene.
+      </Typography>
+      <SearchBar
+        section={section}
+        handleSubmit={handleSubmit}
+        input={input}
+        handleChange={handleChange}
+      />
+      <SoundPresets setFSListData={setFSListData} />
+      <Box
+        sx={{
+          p: 2,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignContent: "center",
+        }}
+      >
+        <SoundList fsListData={fsListData} handleTrack={handleTrack} />
+        <SoundTrack fsTrack={fsTrack} />
+      </Box>
+    </>
   )
 }

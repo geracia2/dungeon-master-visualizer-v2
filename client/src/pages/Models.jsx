@@ -26,9 +26,8 @@ export default function Models() {
   async function handleSearch(e) {
     e.preventDefault();
     setModelData(null);
-    let count = 24;
+    let count = 10;
     let cursor = 'null';
-    //           https://api.sketchfab.com/v3/models?q=dragon&count=10&cursor=null&restricted=false
     // const url = `https://api.sketchfab.com/v3/models?q=${input}&count=${count}&cursor=${cursor}&restricted=false`;
     const url = `https://api.sketchfab.com/v3/search?q=${input}&restricted=false&count=${count}`;
     try {

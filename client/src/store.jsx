@@ -1,6 +1,7 @@
 import axios from "axios";
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
+const baseURL = import.meta.env.VITE_BASE_URL
 
 export const useStateStore = create(persist(devtools((set, get) => ({
     // STATE ▼
@@ -17,7 +18,7 @@ export const useStateStore = create(persist(devtools((set, get) => ({
 
     // REDUCERS ▼
     // when we use set, its like saying:
-    // incrementReducer: () => setState((currentState) => ({ specifiedState:is currentState.specified +1}) replaceAll or update true/false, 'title')
+    // incrementReducer: () => setState((currentState) => ({ specifiedState:is currentState.specified +1}) replaceAll = true or update = false, 'title')
 
     // method: (inject)
     setUser: (userResponse) => {
@@ -64,13 +65,14 @@ export const useStateStore = create(persist(devtools((set, get) => ({
                 _id: state.scene._id,
             }
         }), false, "setModelToState");
+
         const scene = get().scene.model;
         const sceneId = get().scene._id;
         const token = get().token
         console.log('sending to DB', scene);
         console.log('sceneId', sceneId);
         const response = await axios.put(
-            `${process.env.BASE_URL}/api/scene/${sceneId}/model`,
+            `${baseURL}/api/scene/${sceneId}/model`,
             scene,
             { headers: { Authorization: token } }
         );
@@ -84,24 +86,38 @@ export const useStateStore = create(persist(devtools((set, get) => ({
                 tracks: state.scene.tracks,
             }
         }), false, "removeModel")
+
         const scene = {};
         const sceneId = get().scene._id;
         const token = get().token
         console.log('deleting model from DB');
         console.log('sceneId', sceneId);
         const response = await axios.put(
-            `${process.env.BASE_URL}/api/scene/${sceneId}/model`,
+            `${baseURL}/api/scene/${sceneId}/model`,
             scene,
             { headers: { Authorization: token } }
         );
     },
-    addTrack: (newTrack) => {
+    addTrack: async (newTrack) => {
         console.log('Adding track', newTrack)
         set((state) => {
             state.scene.tracks.push(newTrack)
         }, false, "addTrack")
+        // something about this needs to change
+        // const tracks = { tracks: get().scene.tracks }
+
+        const tracks = get().scene.tracks
+        console.log(tracks)
+        const sceneId = get().scene._id;
+        const token = get().token
+        console.log('Sending new tracks to DB');
+        const response = await axios.put(
+            `${baseURL}/api/scene/${sceneId}/tracks`,
+            tracks,
+            { headers: { Authorization: token } }
+        );
     },
-    deleteTrack: (deleteId) => {
+    deleteTrack: async (deleteId) => {
         console.log('Deleting track', deleteId)
         set((state) => ({
             scene: {
@@ -110,6 +126,15 @@ export const useStateStore = create(persist(devtools((set, get) => ({
                 tracks: state.scene.tracks.filter((item) => item.id !== deleteId)
             }
         }), false, "deleteTrack")
+        const tracks = get().scene.tracks;
+        const sceneId = get().scene._id;
+        const token = get().token
+        console.log('Sending deleted track to DB');
+        const response = await axios.put(
+            `${baseURL}/api/scene/${sceneId}/tracks`,
+            tracks,
+            { headers: { Authorization: token } }
+        );
     },
 
 })),

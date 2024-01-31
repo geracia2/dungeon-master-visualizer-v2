@@ -79,7 +79,11 @@ export default function ModelList({ modelData }) {
                                         >
                                             <Chip
                                                 label="Add to Scene"
-                                                onClick={() => setModelToState({uid: model.uid, name: model.name, thumbnail: model.thumbnails.images[2].url})}
+                                                onClick={() => setModelToState({
+                                                    uid: model.uid,
+                                                    name: model.name,
+                                                    thumbnail: model.thumbnails.images[2].url
+                                                })}
                                                 icon={<AddIcon />}
                                             />
                                         </Stack>
@@ -122,7 +126,7 @@ export default function ModelList({ modelData }) {
             </>
             ) : (
                 <>
-                    <Typography variant="caption" color="text.disabled" sx={{display: "flex", justifyContent: "center" }}>
+                    <Typography variant="caption" color="text.disabled" sx={{ display: "flex", justifyContent: "center" }}>
                         [ Your party is waiting on you... again. ]
                     </Typography>
                 </>

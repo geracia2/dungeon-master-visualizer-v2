@@ -7,10 +7,10 @@ import { useStateStore } from "../store";
 let emptyForm = {
   username: "",
   password: "",
-  email: "",
 };
 
 function Register() {
+  const baseURL= import.meta.env.VITE_BASE_URL
   const navigate = useNavigate();
   const {
     setUser,
@@ -37,7 +37,7 @@ function Register() {
     e.preventDefault();
     try {
       console.log('Creating user from form', form); // {username: 'Bob', password: 'pas123', email: 'bob@gmail.com'}
-      const response = await axios.post("${process.env.BASE_URL}/auth/register", form);
+      const response = await axios.post(`${baseURL}/auth/register`, form);
       // axios formats the response to json already for us
       // data.token should give us the token string, encrypted
       const token = response.data.token;
@@ -55,7 +55,7 @@ function Register() {
       localStorage.setItem("token", token);
 
       console.log('Seeding scene')
-      const seedScene = await axios.get(`${process.env.BASE_URL}/api/scene/${id}/seed`, {
+      const seedScene = await axios.get(`${baseURL}/api/scene/${id}/seed`, {
         headers: { Authorization: token },
       });
       console.log('seeding successful')
@@ -68,7 +68,7 @@ function Register() {
       // our user/:id is going to be replaced with the header: authorization token
       // the routes authorization middleware is waiting for a header: token
       console.log('Requesting user information')
-      const userResponse = await axios.get(`${process.env.BASE_URL}/api/users`, {
+      const userResponse = await axios.get(`${baseURL}/api/users`, {
         headers: { Authorization: token },
       });
       console.log('Got user info in response');
@@ -76,7 +76,7 @@ function Register() {
       console.log("User set");
 
       console.log("Getting scenes");
-      const sceneResponse = await axios.get(`${process.env.BASE_URL}/api/scene/${id}`, {
+      const sceneResponse = await axios.get(`${baseURL}/api/scene/${id}`, {
         headers: { Authorization: token },
       });
       console.log("Adding titles");
