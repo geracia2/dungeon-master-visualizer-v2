@@ -40,9 +40,7 @@ export const useStateStore = create(persist(devtools((set, get) => ({
     },
     addTitle: (title) => {
         // change((access.All.Store.States))
-        set((state) => {
-            state.sceneTitles.push(title)
-        }, false, "addTitle")
+        set((state) => { state.sceneTitles.push(title) }, false, "addTitle")
     },
     clearTitles: () => {
         set({ sceneTitles: [] }, false, "clearTitles")
@@ -56,15 +54,7 @@ export const useStateStore = create(persist(devtools((set, get) => ({
     },
     setModelToState: async (modelResponse) => {
         console.log('set model', modelResponse);
-        set((state) => ({
-            scene: {
-                model: modelResponse,
-                title: state.scene.title,
-                tracks: state.scene.tracks,
-                user_id: state.scene.user_id,
-                _id: state.scene._id,
-            }
-        }), false, "setModelToState");
+        set((state) => { state.scene.model = modelResponse }, false, "setModelToState")
 
         const scene = get().scene.model;
         const sceneId = get().scene._id;
@@ -79,13 +69,16 @@ export const useStateStore = create(persist(devtools((set, get) => ({
     },
     removeModel: async () => {
         console.log('remove model');
-        set((state) => ({
-            scene: {
-                model: {},
-                title: state.scene.title,
-                tracks: state.scene.tracks,
-            }
-        }), false, "removeModel")
+        // set((state) => ({
+        //     scene: {
+        //         model: {},
+        //         title: state.scene.title,
+        //         tracks: state.scene.tracks,
+        //         user_id: state.scene.user_id,
+        //         _id: state.scene._id,
+        //     }
+        // }), false, "removeModel")
+        set((state) => { state.scene.model = {} }, false, "removeModel")
 
         const scene = {};
         const sceneId = get().scene._id;
@@ -100,41 +93,47 @@ export const useStateStore = create(persist(devtools((set, get) => ({
     },
     addTrack: async (newTrack) => {
         console.log('Adding track', newTrack)
-        set((state) => {
-            state.scene.tracks.push(newTrack)
-        }, false, "addTrack")
+        set((state) => { state.scene.tracks.push(newTrack) }, false, "addTrack")
         // something about this needs to change
         // const tracks = { tracks: get().scene.tracks }
 
-        const tracks = get().scene.tracks
-        console.log(tracks)
+        console.log(newTrack)
         const sceneId = get().scene._id;
         const token = get().token
         console.log('Sending new tracks to DB');
         const response = await axios.put(
             `${baseURL}/api/scene/${sceneId}/tracks`,
-            tracks,
+            newTrack,
             { headers: { Authorization: token } }
         );
+        console.log(response.data)
     },
     deleteTrack: async (deleteId) => {
         console.log('Deleting track', deleteId)
-        set((state) => ({
-            scene: {
-                model: state.scene.model,
-                title: state.scene.title,
-                tracks: state.scene.tracks.filter((item) => item.id !== deleteId)
-            }
-        }), false, "deleteTrack")
+        // set((state) => ({
+        //     scene: {
+        //         model: state.scene.model,
+        //         title: state.scene.title,
+        //         user_id: state.scene.user_id,
+        //         _id: state.scene._id,
+        //         tracks: state.scene.tracks.filter((item) => item.id !== deleteId)
+        //     }
+        // }), false, "deleteTrack")
+        set((state) => {
+            let updateTracks = state.scene.tracks.filter((item) => item.id !== deleteId);
+            return state.scene.tracks = updateTracks;
+        }, false, "deleteTrack")
+
+
         const tracks = get().scene.tracks;
         const sceneId = get().scene._id;
         const token = get().token
         console.log('Sending deleted track to DB');
-        const response = await axios.put(
-            `${baseURL}/api/scene/${sceneId}/tracks`,
-            tracks,
+        const response = await axios.delete(
+            `${baseURL}/api/scene/${sceneId}/${deleteId}`,
             { headers: { Authorization: token } }
         );
+        console.log(response.data)
     },
 
 })),

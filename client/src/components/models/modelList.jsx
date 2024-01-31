@@ -9,6 +9,7 @@ import {
     Stack,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import React, { useState } from "react";
 import { useStateStore } from '../../store';
@@ -16,7 +17,7 @@ import { useStateStore } from '../../store';
 export default function ModelList({ modelData }) {
     const [modalInfo, setModalInfo] = useState({});
     const setModelToState = useStateStore((store) => store.setModelToState)
-    const removeModelState = useStateStore((store) => store.removeModelState)
+    const removeModel = useStateStore((store) => store.removeModel)
 
     // modal vars
     const [open, setOpen] = useState(false);
@@ -85,6 +86,12 @@ export default function ModelList({ modelData }) {
                                                     thumbnail: model.thumbnails.images[2].url
                                                 })}
                                                 icon={<AddIcon />}
+                                            />
+                                            <Chip
+                                                label="Remove From Scene"
+                                                onClick={removeModel}
+                                                icon={<DeleteIcon />}
+                                                variant="outlined"
                                             />
                                         </Stack>
                                     }

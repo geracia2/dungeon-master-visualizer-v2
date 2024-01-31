@@ -2,7 +2,7 @@
 const sfKey = import.meta.env.VITE_KEY_SF;
 
 // Preset API requests
-async function handlePreset(param) {
+async function HandlePreset(param) {
     // const url = `https://api.sketchfab.com/v3/models?q=${params}&count=${count}&cursor=${cursor}&restricted=false`;
     const url = `https://api.sketchfab.com/v3/search?q=${param}`;
     try {
@@ -16,7 +16,7 @@ async function handlePreset(param) {
 }
 
 // Search bar API request
-async function handleSearch(e, input) {
+async function HandleSearch(e, input) {
     e.preventDefault(); 
     let count = 10;
     let cursor = null;
@@ -33,4 +33,4 @@ async function handleSearch(e, input) {
     }
 }
 
-export { handleSearch, handlePreset }
+export { HandleSearch, HandlePreset }

@@ -17,8 +17,8 @@ router.put("/:sceneId/model", sceneControl.updateModel);
 // ===UPDATE=== [http://localhost:5000/api/scene/:sceneId/tracks] :: PUT available: req.params.userId|sceneId, req.body
 router.put("/:sceneId/tracks", sceneControl.addTracks);
 
-// ===UPDATE=== [http://localhost:5000/api/scene/:sceneId/tracks] :: PUT available: req.params.userId|sceneId, req.body
-router.delete("/:sceneId/tracks/:trackId", sceneControl.deleteTracks);
+// ===DELETE=== [http://localhost:5000/api/scene/:sceneId/:trackId] :: PUT available: req.params.userId|sceneId, req.body
+router.delete("/:sceneId/:trackId", sceneControl.deleteTracks);
 
 // ===DELETE== [http://localhost:5000/api/scene/:userId/:sceneId] :: DELETE available: req.params.userId|sceneId
 router.delete("/:userId/:sceneId", sceneControl.delete);

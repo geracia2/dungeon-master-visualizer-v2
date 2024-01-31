@@ -86,6 +86,20 @@ module.exports.create = async (req, res) => {
   }
 };
 
+// ===UPDATE=== [http://localhost:5000/api/scene/:sceneId/model] :: PUT available: req.params.userId|sceneId, req.body
+module.exports.updateModel = async (req, res) => {
+  try {
+    console.log("updating just the model with", req.body)
+    await Scene.findByIdAndUpdate(req.params.sceneId, {
+      $set: {model: req.body}
+    });
+    res.status(200).send("update was successful to DB");
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).json({ error: err.message });
+  }
+};
+
 // ===CREATE=== [http://localhost:5000/api/scene/:sceneId/tracks] :: PUT available: req.params.userId|sceneId, req.body
 module.exports.addTracks = async (req, res) => {
   try {
@@ -93,7 +107,7 @@ module.exports.addTracks = async (req, res) => {
     await Scene.findByIdAndUpdate(req.params.sceneId, {
       $push: {tracks: req.body}
     });
-    res.status(200).send("update was successful");
+    res.status(200).send("Add was successful to DB");
   } catch (err) {
     console.log(err.message);
     res.status(400).json({ error: err.message });
@@ -103,25 +117,11 @@ module.exports.addTracks = async (req, res) => {
 // ===DELETE=== [http://localhost:5000/api/scene/:sceneId/tracks/:trackid] :: PUT available: req.params.userId|sceneId, req.body
 module.exports.deleteTracks = async (req, res) => {
   try {
-    console.log("updating just the tracks with", req.body)
+    console.log("Deleting track", req.params.trackId)
     await Scene.findByIdAndUpdate(req.params.sceneId, {
-      $pull: {tracks: req.params.trackId}
+      $pull: {tracks: {id: req.params.trackId}}
     });
-    res.status(200).send("update was successful");
-  } catch (err) {
-    console.log(err.message);
-    res.status(400).json({ error: err.message });
-  }
-};
-
-// ===UPDATE=== [http://localhost:5000/api/scene/:sceneId/model] :: PUT available: req.params.userId|sceneId, req.body
-module.exports.updateModel = async (req, res) => {
-  try {
-    console.log("updating just the model with", req.body)
-    await Scene.findByIdAndUpdate(req.params.sceneId, {
-      $set: {model: req.body}
-    });
-    res.status(200).send("update was successful");
+    res.status(200).send("Delete was successful to DB");
   } catch (err) {
     console.log(err.message);
     res.status(400).json({ error: err.message });
@@ -142,7 +142,7 @@ module.exports.delete = async (req, res) => {
         scenes: req.params.sceneId,
       },
     });
-    res.status(200).send("delete was successful");
+    res.status(200).send("delete was successful to DB");
   } catch (err) {
     console.log(err.message);
     res.status(400).json({ error: err.message });
@@ -157,7 +157,7 @@ module.exports.updateScene = async (req, res) => {
     console.log("Edit whole scene with", req.body); 
     await Scene.findByIdAndUpdate(req.params.sceneId, req.body);
     // noting sent back? send something or it will hang
-    res.status(200).send("update was successful");
+    res.status(200).send("update was successful to DB");
     // redirect on client side
   } catch (err) {
     console.log(err.message);

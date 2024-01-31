@@ -47,13 +47,13 @@ export default function SoundTrack({ fsTrack }) {
             <Chip label="Add to Scene"
               onClick={() => addTrack({
                 name: fsTrack.name,
-                id: fsTrack.name,
+                id: fsTrack.id,
                 waveform: fsTrack.images.waveform_bw_l
               })}
               icon={<AddIcon />} />
             <Chip
               label="Remove From Scene"
-              onClick={deleteTrack}
+              onClick={()=>deleteTrack(fsTrack.id)}
               icon={<DeleteIcon />}
               variant="outlined"
             />
