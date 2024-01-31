@@ -101,19 +101,9 @@ export const useStateStore = create(persist(devtools((set, get) => ({
     },
     deleteTrack: async (deleteId) => {
         console.log('Deleting track', deleteId)
-        // set((state) => {
-        //     let updateTracks = state.scene.tracks.filter((item) => item.id !== deleteId);
-        //     return state.scene.tracks = updateTracks;
-        // })
-
         set((state) => ({
             scene: { ...state.scene, tracks: state.scene.tracks.filter((item) => item.id !== deleteId) }
         }), false, "deleteTrack")
-
-        // const tracks = get().scene.tracks;
-        // let newTracks = tracks.filter((item) => item.id !== deleteId);
-        // set({ tracks: newTracks }, false, "deleteTrack")
-
 
         const updatedTracks = get().scene.tracks;
         const sceneId = get().scene._id;
