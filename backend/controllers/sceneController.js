@@ -1,6 +1,6 @@
 const Scene = require("../models/sceneModel");
 const User = require("../models/userModel");
-const sceneSeed = require("./../models/sceneSeed");
+const sceneSeed = require("./sceneSeed");
 
 // ==SEED== [http://localhost:5000/api/scene/:userId/seed] :: GET available: req.params.userId
 module.exports.seed = async (req, res) => {

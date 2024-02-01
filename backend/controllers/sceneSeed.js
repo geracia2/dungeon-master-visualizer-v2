@@ -5,4 +5,4 @@ const sceneSeed = {
   user_id: "",
 };
 
-module.exports = sceneSeed;
+module.exports = sceneSeed
