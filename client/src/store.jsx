@@ -1,7 +1,7 @@
 import axios from "axios";
 import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
-const baseURL = import.meta.env.VITE_BASE_URL
+import baseURL from "./../Api"
 
 export const useStateStore = create(persist(devtools((set, get) => ({
     // STATE ▼

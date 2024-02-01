@@ -4,13 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { useStateStore } from "../store";
 
 import { Box, TextField, Typography, Button } from '@mui/material/'
- 
+import baseURL from "./../Api"
+
 let emptyForm = {
   username: "",
   password: "",
 };
 function Login() {
-  const baseURL = import.meta.env.VITE_BASE_URL
   console.log(`${baseURL}/auth/login`)
   const navigate = useNavigate();
   const {

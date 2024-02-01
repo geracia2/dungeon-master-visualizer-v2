@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import { useStateStore } from "../store";
 import { useShallow } from "zustand/react/shallow";
 import axios from "axios";
+import baseURL from "./../../Api"
 
 export default function loadLocalUser() {
-    const baseURL = import.meta.env.VITE_BASE_URL
+
     const { setLoggedIn, setUser, loading, setLoading, setToken } = useStateStore((store) => ({
         setLoggedIn: store.setLoggedIn,
         setUser: store.setUser,
