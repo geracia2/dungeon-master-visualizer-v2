@@ -40,7 +40,7 @@ export default function TopAppBar(props) {
     clearScene: store.clearScene
   }))
 
-  function logout() {
+  async function logout() {
 
     setToken(null);
     clearUser();
@@ -48,8 +48,8 @@ export default function TopAppBar(props) {
     clearScene();
     localStorage.removeItem('token')
     localStorage.removeItem('dmv')
-    
-    setLoggedIn(false).then(() => { navigate('/login') });
+
+    await setLoggedIn(false).then(() => { navigate('/login') });
   };
   // ========= MUI stuff ▼
   const { window } = props;
