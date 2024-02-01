@@ -42,18 +42,20 @@ function App() {
               <Route path="/models" element={<Models />} />
               <Route path="/sounds" element={<Sounds />} />
               <Route path="/scene" element={<Scene />} />
-              re-route if user tries to access login/register url while not logged out
-              {!loading && <Route path="/login" element={<Navigate to="/scene" />} />}
-              {!loading && <Route path="/register" element={<Navigate to="/scene" />} />}
+              {/* re-route if user tries to access login/register url while not logged out */}
+              {!loading && <Route path="/*" element={<Navigate to="/" />} />}
+              {/* {!loading && <Route path="/login" element={<Navigate to="/scene" />} />} */}
+              {/* {!loading && <Route path="/register" element={<Navigate to="/scene" />} />} */}
             </>
           ) : (
             <>
               {/* if not logged in */}
               <Route path="/register" element={<Register />} />
               <Route path="/login" element={<Login />} />
-              {!loading && (<Route path="/models" element={<Navigate to="/login" />} />)}
-              {!loading && (<Route path="/sounds" element={<Navigate to="/login" />} />)}
-              {!loading && (<Route path="/scene" element={<Navigate to="/login" />} />)}
+              {!loading && <Route path="/*" element={<Navigate to="/" />} />}
+              {/* {!loading && (<Route path="/models" element={<Navigate to="/login" />} />)} */}
+              {/* {!loading && (<Route path="/sounds" element={<Navigate to="/login" />} />)} */}
+              {/* {!loading && (<Route path="/scene" element={<Navigate to="/login" />} />)} */}
             </>
           )}
         </Routes>
