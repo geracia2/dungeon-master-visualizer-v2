@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <Router>
     <ThemeProvider theme={ThemeOptions} >
       {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-      <CssBaseline />
+      <CssBaseline enableColorScheme />
       <App />
     </ThemeProvider>
   </Router>

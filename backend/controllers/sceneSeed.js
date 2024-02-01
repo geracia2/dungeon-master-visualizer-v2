@@ -1,7 +1,7 @@
 const sceneSeed = {
   title: "My First Scene",
-  model: {},
-  tracks: [],
+  model: null,
+  tracks: null,
   user_id: "",
 };
 

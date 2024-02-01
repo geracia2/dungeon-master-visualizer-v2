@@ -5,8 +5,11 @@ import baseURL from "./Api"
 
 export const useStateStore = create(persist(devtools((set, get) => ({
     // STATE ▼
-    user: {username: null},
-    scene: {},
+    user: { username: null },
+    scene: {
+        tracks:[],
+        model:{}
+    },
     sceneTitles: [],
     loading: true,
     loggedIn: false,

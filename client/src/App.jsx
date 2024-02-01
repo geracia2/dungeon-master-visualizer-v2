@@ -42,7 +42,7 @@ function App() {
               <Route path="/models" element={<Models />} />
               <Route path="/sounds" element={<Sounds />} />
               <Route path="/scene" element={<Scene />} />
-              re-route if user tries to access login/register url while not logged out
+              {/* re-route if user tries to access login/register url while not logged out */}
               {!loading && <Route path="/login" element={<Navigate to="/scene" />} />}
               {!loading && <Route path="/register" element={<Navigate to="/scene" />} />}
             </>

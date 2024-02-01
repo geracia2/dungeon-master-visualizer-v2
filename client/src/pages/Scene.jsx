@@ -16,10 +16,10 @@ export default function Scene() {
   const model = useStateStore((store) => store.scene?.model)
   const removeModel = useStateStore((store)=> store.removeModel)
 
-  const theme = useTheme();
+  console.log("your tracks", tracks)
+  console.log("your model", model)
 
   return (
-
     <>
       <Box
         sx={{
@@ -35,7 +35,7 @@ export default function Scene() {
         }}
       >
 
-        {tracks ? (<>
+        {Array.isArray(tracks) && tracks.length > 0 ? (<>
           {console.log("your tracks", tracks)
           }
           <Box
@@ -59,7 +59,7 @@ export default function Scene() {
           </Alert>
         </>)}
 
-        {model ? (<>
+        {model.hasOwnProperty('username') ? (<>
           {console.log("your model", model)}
           <Box sx={{
             px: 2,
@@ -67,17 +67,10 @@ export default function Scene() {
             justifyContent: "center",
             alignItems: "flex-start;",
             flexDirection: "column",
-            // position: "absolute",
-            // top: "50%",
-            // left: "50%",
-            // transform: "translate(-50%, -50%)",
             width: "98vw",
-            // width: "500px",
             height: "80vh",
-            // height: "400px",
             borderRadius: "12px",
             bgcolor: "background.paper",
-            // border: "2px solid #000",
             boxShadow: 15,
           }}>
             <Box sx={{

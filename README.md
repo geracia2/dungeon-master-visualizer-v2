@@ -19,6 +19,6 @@ I was not happy with the user flow of my first DMV app and a re-write of the exp
 
 ###### What I learned
 
-* Laying out all the data and their relationships is quite important and I learned my initial assumptions of the ERD was wrong, thus my REST routes were wrong. I tackled the REST routs first without having a solid understanding of how to populate scenes with a reference relationship to users. This resulted in re-writing the scene routes but doing so gave me more experience with mapping ERD. It was also quite helpful to produce an [example user object.](https://github.com/geracia2/geracia2/blob/main/images/Screenshot%202024-01-28%20124446.png?raw=true "screenshot of user object")
+* Laying out all the data and their relationships is quite important and I learned my initial assumptions of the ERD were wrong, thus my REST routes were wrong. I tackled the REST routs first without having a solid understanding of how to populate scenes with a reference relationship to users. This resulted in re-writing the scene routes but doing so gave me more experience with mapping ERD. It was also quite helpful to produce an [example user object.](https://github.com/geracia2/geracia2/blob/main/images/Screenshot%202024-01-28%20124446.png?raw=true "screenshot of user object")
 
 ###### Technologies used
