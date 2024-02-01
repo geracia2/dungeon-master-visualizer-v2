@@ -14,7 +14,7 @@ import {
 export default function Scene() {
   const tracks = useStateStore((store) => store.scene?.tracks);
   const model = useStateStore((store) => store.scene?.model)
-  const removeModel = useStateStore((store)=> store.removeModel)
+  const removeModel = useStateStore((store) => store.removeModel)
 
   const theme = useTheme();
 
@@ -88,9 +88,9 @@ export default function Scene() {
               <Typography id="modal-modal-title" variant="h6" component="h2">
                 {model.name}
               </Typography>
-              <IconButton onClick={removeModel}>
-              <DeleteIcon />
-              </IconButton>
+              {/* <IconButton onClick={removeModel}>
+                <DeleteIcon />
+              </IconButton> */}
             </Box>
             <iframe
               src={`https://sketchfab.com/models/${model.uid}/embed`}

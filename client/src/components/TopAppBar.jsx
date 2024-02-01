@@ -26,12 +26,14 @@ export default function TopAppBar(props) {
   const navigate = useNavigate()
   const {
     user,
+    setLoggedIn,
     setToken,
     clearUser,
     clearTitles,
     clearScene
   } = useStateStore((store) => ({
     user: store.user,
+    setLoggedIn: store.setLoggedIn,
     setToken: store.setToken,
     clearUser: store.clearUser,
     clearTitles: store.clearTitles,
@@ -39,13 +41,15 @@ export default function TopAppBar(props) {
   }))
 
   function logout() {
+
     setToken(null);
     clearUser();
     clearTitles();
     clearScene();
     localStorage.removeItem('token')
     localStorage.removeItem('dmv')
-    navigate('/login')
+    
+    setLoggedIn(false).then(() => { navigate('/login') });
   };
   // ========= MUI stuff ▼
   const { window } = props;

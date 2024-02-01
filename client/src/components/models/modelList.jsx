@@ -87,12 +87,12 @@ export default function ModelList({ modelData }) {
                                                 })}
                                                 icon={<AddIcon />}
                                             />
-                                            <Chip
+                                            {/* <Chip
                                                 label="Remove From Scene"
                                                 onClick={removeModel}
                                                 icon={<DeleteIcon />}
                                                 variant="outlined"
-                                            />
+                                            /> */}
                                         </Stack>
                                     }
                                     actionPosition="right"
