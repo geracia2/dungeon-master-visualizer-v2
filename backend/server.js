@@ -27,7 +27,7 @@ app.use(express.json());
 // enable <form> data formatting to req.body/params
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/', (req,res)=>{
+app.get('/', (req,res)=>{
   res.send('connected')
 })
 // Login authentication 
