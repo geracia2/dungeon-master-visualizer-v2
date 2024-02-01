@@ -5,7 +5,7 @@ const sceneSeed = require("../models/sceneSeed");
 // ==SEED== [http://localhost:5000/api/scene/:userId/seed] :: GET available: req.params.userId
 module.exports.seed = async (req, res) => {
   try {
-    console.log('++++ Seeding a user ++++')
+    console.log("++++ Seeding a user ++++");
     // delete matching scenes for user
     const query = { user_id: req.params.userId };
     await Scene.deleteMany(query);
@@ -15,9 +15,9 @@ module.exports.seed = async (req, res) => {
         scenes: [],
       },
     });
-    console.log('clearing all scenes from user')
+    console.log("clearing all scenes from user");
 
-    let updateBody = sceneSeed
+    let updateBody = sceneSeed;
     updateBody.user_id = req.params.userId;
     const scene = await Scene.create(updateBody);
     const newUser = await User.findByIdAndUpdate(req.params.userId, {
@@ -25,7 +25,7 @@ module.exports.seed = async (req, res) => {
         scenes: scene._id,
       },
     });
-    console.log('seeding new first scene')
+    console.log("seeding new first scene");
 
     // for multiple documents to be inserted:
     // create a scene and insert it in a user
@@ -40,7 +40,7 @@ module.exports.seed = async (req, res) => {
     //     },
     //   });
     // }
-    res.status(200).json({newUser, scene});
+    res.status(200).json({ newUser, scene });
   } catch (err) {
     console.log(err);
     res.status(400).json({ error: err.message });
@@ -63,10 +63,9 @@ module.exports.index = async (req, res) => {
 // ===CREATE== [http://localhost:5000/api/scene/:userId] ::  POST available: req.params.userId, req.body
 module.exports.create = async (req, res) => {
   try {
-
     const body = req.body;
     body.user_id = req.params.userId;
-    console.log(body)
+    console.log(body);
     // create a scene independent of a User.
     const scene = await Scene.create(body);
     console.log("Creating a scene from req.body", req.body);
@@ -89,9 +88,9 @@ module.exports.create = async (req, res) => {
 // ===UPDATE=== [http://localhost:5000/api/scene/:sceneId/model] :: PUT available: req.params.userId|sceneId, req.body
 module.exports.updateModel = async (req, res) => {
   try {
-    console.log("updating just the model with", req.body)
+    console.log("updating just the model with", req.body);
     await Scene.findByIdAndUpdate(req.params.sceneId, {
-      $set: {model: req.body}
+      $set: { model: req.body },
     });
     res.status(200).send("update was successful to DB");
   } catch (err) {
@@ -103,9 +102,9 @@ module.exports.updateModel = async (req, res) => {
 // ===CREATE=== [http://localhost:5000/api/scene/:sceneId/tracks] :: PUT available: req.params.userId|sceneId, req.body
 module.exports.addTracks = async (req, res) => {
   try {
-    console.log("Adding track with", req.body)
+    console.log("Adding track with", req.body);
     await Scene.findByIdAndUpdate(req.params.sceneId, {
-      $push: {tracks: req.body}
+      $push: { tracks: req.body },
     });
     res.status(200).send("Add was successful to DB");
   } catch (err) {
@@ -117,9 +116,9 @@ module.exports.addTracks = async (req, res) => {
 // ===DELETE=== [http://localhost:5000/api/scene/:sceneId/tracks/:trackid] :: PUT available: req.params.userId|sceneId, req.body
 module.exports.deleteTracks = async (req, res) => {
   try {
-    console.log("Deleting track", req.params.trackId)
+    console.log("Deleting track", req.params.trackId);
     await Scene.findByIdAndUpdate(req.params.sceneId, {
-      $pull: {tracks: {id: req.params.trackId}}
+      $pull: { tracks: { id: req.params.trackId } },
     });
     res.status(200).send("Delete was successful to DB");
   } catch (err) {
@@ -154,7 +153,7 @@ module.exports.updateScene = async (req, res) => {
   try {
     // update a comment by updating an item in the comments property in post
 
-    console.log("Edit whole scene with", req.body); 
+    console.log("Edit whole scene with", req.body);
     await Scene.findByIdAndUpdate(req.params.sceneId, req.body);
     // noting sent back? send something or it will hang
     res.status(200).send("update was successful to DB");
