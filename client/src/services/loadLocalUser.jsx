@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useStateStore } from "../store";
 import { useShallow } from "zustand/react/shallow";
 import axios from "axios";
-import baseURL from "./../../Api"
+import baseURL from "../../Api"
 
 export default function loadLocalUser() {
 
