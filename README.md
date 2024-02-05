@@ -28,6 +28,7 @@ Future Features
 
 ###### Unsolved Problems
 
+* Registering a new user should cause a redirect but is currently returning  an error. Likely due to the API response. Adding promises to the register function may solve this.
 * I'm still getting odd interactions with loading in a user, grabbing the authentication token from localStorage then [populating models](https://github.com/geracia2/geracia2/blob/main/images/Screenshot%202024-01-29%20184430.png?raw=true "screenshot of state with redux Devtools"), but rendering a conditional message when there are no models.
 * FreeSound will some times not accept Axios requests even if they contain the same headers as a fetch.
 
